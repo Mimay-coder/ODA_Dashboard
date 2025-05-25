@@ -94,7 +94,7 @@ if section == "AID Landscape":
                                  color_discrete_sequence=["#08306B", "#08519C", "#2171B5", "#4292C6", "#6BAED6",
                                                                               "#9ECAE1", "#C6DBEF", "#DEEBF7"])
             fig_channel.update_traces(texttemplate='%{percent:.1%}')
-            fig_channel.update_layout(height=250,margin=dict(t=0, b=10, l=0, r=10),legend=dict(orientation="v", y=-0.5))
+            fig_channel.update_layout(height=250,margin=dict(t=0, b=10, l=0, r=10),legend=dict(orientation="v", y=0.5))
             st.plotly_chart(fig_channel, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
