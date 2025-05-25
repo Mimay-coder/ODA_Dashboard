@@ -234,22 +234,22 @@ elif section == "Education Indicators":
 
     col_male, col_female = st.columns((5,5))
     with col_male:
-        st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Male </h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.4rem;'>Literacy-Male </h5>", unsafe_allow_html=True)
         male_data= Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Year'].between(2000, 2019))]
-        male_data = male_data.dropna(subset=['Out_of_Schcool_Male'])
+        male_data = male_data.dropna(subset=['Literacy_Male'])
        
         
-        fig_male = px.bar(male_data,x='Year',y='Out_of_School_Male',labels={'Out_of_School_Male': 'Number of Boys'},
+        fig_male = px.bar(male_data,x='Year',y='Literacy_Male',
         height=300,color_discrete_sequence=['#ff7f0e'])
         fig_male.update_layout(margin=dict(t=20, b=30, l=40, r=10))
         st.plotly_chart(fig_male, use_container_width=True)
         
     with col_female:
-        st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Female </h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.4rem;'> Literacy-Female </h5>", unsafe_allow_html=True)
         fem_data= Finaldf1[(Finaldf1['Country'] == country) &(Finaldf1['Year'].between(2000, 2019))]
-        fem_data = fem_data.dropna(subset=['Out_of_School_Female'])
+        fem_data = fem_data.dropna(subset=['Literacy_Female'])
         
-        fig_female = px.bar(fem_data,x='Year',y='Out_of_School_Female',labels={'Out_of_School_Female': 'Number of Girls'},
+        fig_female = px.bar(fem_data,x='Year',y='Literacy_Female',
         height=300,color_discrete_sequence=['#ff7f0e'])
         fig_female.update_layout(margin=dict(t=20, b=30, l=40, r=10))
         st.plotly_chart(fig_female, use_container_width=True) 
