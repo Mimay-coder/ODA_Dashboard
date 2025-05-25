@@ -232,6 +232,29 @@ elif section == "Education Indicators":
         st.plotly_chart(fig_lit, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
+    col_male, col_female = st.columns((5,5))
+    with col_male:
+        st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Male </h5>", unsafe_allow_html=True)
+        school_df = Finaldf1[(Finaldf1['Country'] == selected_country) &(Finaldf1['Year'].between(2000, 2019))]
+        school_df = school_df.dropna(subset=['Out_of_Schcool_Male'])
+        
+        fig_male = px.bar(school_df,x='Year',y='Out_of_School_Male',labels={'Out_of_School_Male': 'Number of Boys'},
+        height=300,color_discrete_sequence=['#ff7f0e'])
+        fig_male.update_layout(margin=dict(t=20, b=30, l=40, r=10))
+        st.plotly_chart(fig_male, use_container_width=True)
+        
+    with col_female:
+        st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Female </h5>", unsafe_allow_html=True)
+        school_df1 = Finaldf1[(Finaldf1['Country'] == selected_country) &(Finaldf1['Year'].between(2000, 2019))]
+        school_df1 = school_df.dropna(subset=['Out_of_School_Female'])
+        
+        fig_female = px.bar(school_df1,x='Year',y='Out_of_School_Female',labels={'Out_of_School_Female': 'Number of Girls'},
+        height=300,color_discrete_sequence=['#ff7f0e'])
+        fig_female.update_layout(margin=dict(t=20, b=30, l=40, r=10))
+        st.plotly_chart(fig_female, use_container_width=True)
+
+
+
 
 
 # ------------------------------
