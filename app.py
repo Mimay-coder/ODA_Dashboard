@@ -139,7 +139,7 @@ elif section == "Healthcare Indicators":
         st.markdown('</div>', unsafe_allow_html=True)
 
         col_san = st.columns([1,0])
-    with col_san[1]:
+    with col_san:
         
         sanitation_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Water supply & sanitation')].groupby('Year').agg({
         'Sector_ODA_Millions':'sum','Population_using_basic_sanitation%': 'mean'}).reset_index()
