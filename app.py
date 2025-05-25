@@ -101,8 +101,7 @@ elif section == "Healthcare Indicators":
                            name='Maternal Mortality', yaxis='y2')
     fig_health.update_layout(
         yaxis2=dict(title='Maternal Mortality', overlaying='y', side='right'),
-        title=f"Reproductive Health ODA and Maternal Mortality in {country}",
-        height=400, margin=dict(t=10, b=10, l=10, r=10)
+        height=200, margin=dict(t=3, b=0, l=0, r=3)
     )
     st.plotly_chart(fig_health, use_container_width=True)
 
