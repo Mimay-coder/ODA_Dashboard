@@ -237,6 +237,7 @@ elif section == "Education Indicators":
         st.markdown("<h5 style='margin-bottom: -1.4rem;'>Literacy-Male </h5>", unsafe_allow_html=True)
         male_data= Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Year'].between(2000, 2019))]
         male_data = male_data.dropna(subset=['Literacy_Male'])
+        male_data = male_data.groupby('Year')['Literacy_Male'].mean().reset_index()
        
         
         fig_male = px.bar(male_data,x='Year',y='Literacy_Male',
@@ -248,6 +249,7 @@ elif section == "Education Indicators":
         st.markdown("<h5 style='margin-bottom: -1.4rem;'> Literacy-Female </h5>", unsafe_allow_html=True)
         fem_data= Finaldf1[(Finaldf1['Country'] == country) &(Finaldf1['Year'].between(2000, 2019))]
         fem_data = fem_data.dropna(subset=['Literacy_Female'])
+        fem_data = fem_data.groupby('Year')['Literacy_Female'].mean().reset_index()
         
         fig_female = px.bar(fem_data,x='Year',y='Literacy_Female',
         height=300,color_discrete_sequence=['#ff7f0e'])
