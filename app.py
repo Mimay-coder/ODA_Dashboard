@@ -168,8 +168,6 @@ elif section == "Healthcare Indicators":
 
         st.plotly_chart(fig_Nourishment, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
-        st.markdown("<h5 style='margin-bottom: -2.2rem;'>Basic Nutrition ODA vs Undernourishment</h5>", unsafe_allow_html=True)
-
 
      
 
