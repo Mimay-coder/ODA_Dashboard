@@ -53,6 +53,12 @@ footer {visibility: hidden;}
 header {visibility: hidden;}
 
 
+.aid-landscape-section {
+  margin-top: -1em;
+  margin-bottom: 2em;
+  padding: 1em;
+}
+
 .healthcare-section {
   margin-top: -1em;
   margin-bottom: 2em;
