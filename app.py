@@ -29,7 +29,7 @@ if section == "AID Landscape":
     top_country = Finaldf.groupby('Country')['oda_per_capita_usd'].mean().idxmax()
     top_sector = Finaldf.groupby('Sector')['Sector_ODA_Millions'].sum().idxmax()
 
-    st.markdown("Summary Statistics")
+    #st.markdown("Summary Statistics")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total ODA", f"${total_oda/1e3:.1f}B")
     col2.metric("Top Donor", top_donor)
@@ -55,7 +55,7 @@ if section == "AID Landscape":
             projection="natural earth",
         )
         fig_map.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
-        fig_map.update_layout(height=400, margin=dict(t=10, b=10, l=10, r=10))
+        fig_map.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
         st.plotly_chart(fig_map, use_container_width=True)
 
     with col_pie:
@@ -68,7 +68,7 @@ if section == "AID Landscape":
         sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
         fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
                          title=f"ODA by Sector in {year}", color_discrete_sequence=px.colors.sequential.Blues)
-        fig_pie.update_layout(height=400, margin=dict(t=10, b=40, l=10, r=10), legend=dict(orientation="h", y=-0.2))
+        fig_pie.update_layout(height=300, margin=dict(t=10, b=40, l=10, r=10), legend=dict(orientation="h", y=-0.2))
         st.plotly_chart(fig_pie, use_container_width=True)
 
     st.markdown("---")
