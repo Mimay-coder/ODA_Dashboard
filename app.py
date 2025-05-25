@@ -140,41 +140,30 @@ elif section == "Healthcare Indicators":
 
         st.markdown("<h5 style='margin-top: 1rem; margin-bottom: -0.5rem;'>Water & Sanitation ODA vs Population using Basic Sanitation</h5>", unsafe_allow_html=True)
 
-        left, center, right = st.columns([1, 6, 1])
-    with center:
-        sanitation_data = Finaldf[
-            (Finaldf['Country'] == country) &
-            (Finaldf['Sector'] == 'Water supply & sanitation')
-        ].groupby('Year').agg({
-            'Sector_ODA_Millions': 'sum',
-            'Population_using_basic_sanitation%': 'mean'
-        }).reset_index()
+        
+    col_sanitation, col_nurishment) = st.columns((5,5))
+    with col_sanitation:
+        sanitation_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Water supply & sanitation')].groupby('Year').agg({
+        'Sector_ODA_Millions': 'sum','Population_using_basic_sanitation%': 'mean'}).reset_index()
 
-        fig_sanitation = px.line(
-            sanitation_data,
-            x='Year',
-            y='Sector_ODA_Millions',
-            labels={'Sector_ODA_Millions': 'ODA (Millions)'}
-        )
-        fig_sanitation.add_scatter(
-            x=sanitation_data['Year'],
-            y=sanitation_data['Population_using_basic_sanitation%'],
-            name='Population using basic sanitation (%)',
-            yaxis='y2'
-        )
-        fig_sanitation.update_layout(
-            height=250,
-            margin=dict(t=10, b=10, l=0, r=10),
-            legend=dict(orientation="h", y=-0.3),
-            yaxis2=dict(
-                title='Population using basic sanitation (%)',
-                overlaying='y',
-                side='right'
-            )
-        )
+        fig_sanitation = px.line(sanitation_data,x='Year',y='Sector_ODA_Millions',labels={'Sector_ODA_Millions': 'ODA (Millions)'})
+        fig_sanitation.add_scatter(x=sanitation_data['Year'], y=sanitation_data['Population_using_basic_sanitation%'],name='Population using basic sanitation (%)',
+        yaxis='y2')
+        fig_sanitation.update_layout(height=250, margin=dict(t=10, b=10, l=0, r=10),legend=dict(orientation="h", y=-0.3),
+        yaxis2=dict(title='Population using basic sanitation (%)',overlaying='y',side='right'))
         st.plotly_chart(fig_sanitation, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # End of section
+    with col_nurishment:
+        Nourishment_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Basic nutrition')].groupby('Year').agg({
+        'Sector_ODA_Millions': 'sum','Undernourishment': 'mean'}).reset_index()
+
+        fig_Nourishment = px.line(Nourishment_data,x='Year',y='Sector_ODA_Millions',labels={'Sector_ODA_Millions': 'ODA (Millions)'})
+        fig_Nourishment.add_scatter(x=Nourishment_data['Year'], y=Nourishment_data['Undernourishment'],name='Population Undernourished(%)',
+        yaxis='y2')
+        fig_Nourishment.update_layout(height=250, margin=dict(t=0, b=10, l=0, r=0),legend=dict(orientation="h", y=-0.3),
+        yaxis2=dict(title='Basic Nutrition ODA',overlaying='y',side='right'))
+        st.plotly_chart(fig_Nourishment, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
      
 
