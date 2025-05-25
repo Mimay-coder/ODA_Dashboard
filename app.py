@@ -174,9 +174,7 @@ elif section == "Healthcare Indicators":
         yaxis2=dict(title='Undernourishment (%)',overlaying='y',side='right',range=[0, Nourishment_data['Undernourishment'].max() * 3],
         titlefont=dict(size=15, family='Arial Black'),tickfont=dict(size=12, family='Arial Black')
         ),
-        xaxis=dict(title='Year',titlefont=dict(size=15, family='Arial Black'),tickfont=dict(size=12, family='Arial Black')
-    )
-)
+        xaxis=dict(title='Year',titlefont=dict(size=15, family='Arial Black'),tickfont=dict(size=12, family='Arial Black')))
         st.plotly_chart(fig_Nourishment, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
