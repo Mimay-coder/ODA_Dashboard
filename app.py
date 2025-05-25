@@ -72,7 +72,7 @@ if section == "AID Landscape":
         st.plotly_chart(fig_pie, use_container_width=True)
 
     
-    st.markdown("<div style='margin-top: -1.5rem;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: -3rem;'></div>", unsafe_allow_html=True)
     st.markdown("Top Donors")
     
     donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
