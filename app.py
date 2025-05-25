@@ -198,8 +198,7 @@ elif section == "Education Indicators":
     with col_Primary:
         st.markdown("<h5 style='margin-bottom: -1.8rem;'>Primary Education ODA vs Primary Completion</h5>", unsafe_allow_html=True)
         primary_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Primary education')]
-        primary_data = healthcare_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Primary_Completion': 'mean'
-         }).reset_index()
+        primary_data = healthcare_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Primary_Completion': 'mean'}).reset_index()
         
         fig_primary = px.line(primary_data, x='Year', y='Sector_ODA_Millions', labels={'Sector_ODA_Millions': 'Primary Education ODA (Millions)'})
         fig_primary.add_scatter(x=healthcare_data['Year'], y=primary_data['Primary_Completion'],
@@ -219,7 +218,7 @@ elif section == "Education Indicators":
         Enroll_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Basic education')
         ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','School_Enrol_All': 'mean'}).reset_index()
         fig_Enroll = px.line(Enroll_data, x='Year', y='Sector_ODA_Millions',
-                          labels={'Sector_ODA_Millions': 'Total Basic Education ODA (Millions)'})
+        labels={'Sector_ODA_Millions': 'Total Basic Education ODA (Millions)'})
         fig_Enroll.add_scatter(x=Enroll_data['Year'],
                             y=Enroll_data['School_Enrol_All'],
                             name='Total School Enrollment %',
