@@ -149,7 +149,7 @@ elif section == "Healthcare Indicators":
         fig_sanitation.add_scatter(x=sanitation_data['Year'], y=sanitation_data['Population_using_basic_sanitation%'],
         name='Population using basic sanitation (%)',
                                    yaxis='y2' )
-        fig_sanitation.update_layout(height=250,margin=dict(t=10, b=10, l=10, r=10),legend=dict(orientation="h", y=-0.3),
+        fig_sanitation.update_layout(height=250,margin=dict(t=10, b=10, l=0, r=10),legend=dict(orientation="h", y=-0.3),
         yaxis2=dict(title='Population using basic sanitation (%)',overlaying='y',side='right'))
         
         st.plotly_chart(fig_sanitation, use_container_width=True)
