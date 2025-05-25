@@ -200,7 +200,7 @@ elif section == "Education Indicators":
         primary_data = primary_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Primary_Completion': 'mean'}).reset_index()
         
         fig_primary = px.line(primary_data, x='Year', y='Sector_ODA_Millions', labels={'Sector_ODA_Millions': 'Primary Education ODA (Millions)'})
-        fig_primary.add_scatter(x=healthcare_data['Year'], y=primary_data['Primary_Completion'],
+        fig_primary.add_scatter(x=primary_data['Year'], y=primary_data['Primary_Completion'],
                            name='Primary Completion Rate', yaxis='y2')
         fig_primary.update_layout(
         yaxis2=dict(title='Primary Completion Rate', overlaying='y', side='right', range=[0, primary_data['Primary_Completion'].max() * 2]),
