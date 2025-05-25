@@ -22,9 +22,6 @@ div.block-container {
   margin-top: -1em !important;
 }
 
-div.element-container + div.element-container {
-  margin-top: -2rem;
-}
 
 /* Sidebar spacing and appearance */
 .css-1d391kg, .css-1lcbmhc {
