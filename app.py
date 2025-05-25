@@ -236,8 +236,8 @@ elif section == "Education Indicators":
     with col_male:
         st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Male </h5>", unsafe_allow_html=True)
 
-        st.write("school_df columns:", school_df.columns)
-        st.write(school_df.head())
+        st.write (school_df.columns)
+        
         school_df = Finaldf1[(Finaldf1['Country'] == country) &(Finaldf1['Year'].between(2000, 2019))]
         school_df = school_df.dropna(subset=['Out_of_Schcool_Male'])
         
