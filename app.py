@@ -113,7 +113,7 @@ elif section == "Healthcare Indicators":
 # ------------------------------
 elif section == "Education Indicators":
 
-    st.markdown('<div class="Education-section">', unsafe_allow_html=True)
+    st.markdown('<div class="education-section">', unsafe_allow_html=True)
 
     st.subheader("📚 Education ODA vs Literacy Rate")
     country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='edu_country')
@@ -139,7 +139,7 @@ elif section == "Education Indicators":
 # ------------------------------
 elif section == "Corruption Indicators":
 
-    st.markdown('<div class="Couruption-section">', unsafe_allow_html=True)
+    st.markdown('<div class="couruption-section">', unsafe_allow_html=True)
 
     st.subheader("🔍 Placeholder: Corruption and ODA")
     st.info("Add charts related to ODA vs CPI, governance, or anti-corruption indicators here.")
