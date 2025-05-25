@@ -216,7 +216,7 @@ elif section == "Education Indicators":
 
     with col_Lit:
         st.markdown("<h5 style='margin-bottom: -1.8rem;'>Basic Education ODA vs Total Literacy</h5>", unsafe_allow_html=True)
-        Lit_data = Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Sector'] == 'Total_Literacy') & (Finaldf1['Year'].between(2000, 2019))]
+        Lit_data = Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Sector'] == 'Education') & (Finaldf1['Year'].between(2000, 2019))]
         Lit_data = Lit_data[(Lit_data['Sector_ODA_Millions'] != 0) & (Lit_data['Total_Literacy'] != 0)].dropna()
         Lit_data = Lit_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Total_Literacy': 'mean'}).reset_index()
         
