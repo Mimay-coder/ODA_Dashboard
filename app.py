@@ -19,9 +19,13 @@ section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicator
 year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
 #st.markdown("<style> .block-container {padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;} </style>", unsafe_allow_html=True)
 
+
+st.markdown('<div class="aid-landscape-section">', unsafe_allow_html=True)
 # ------------------------------
 # AID LANDSCAPE TAB (Start)
 # ------------------------------
+st.markdown('<div class="aid-landscape-section">', unsafe_allow_html=True)
+
 if section == "AID Landscape":
     total_oda = Finaldf[Finaldf['Sector'] == 'All sectors']['Sector_ODA_Millions'].sum()
     top_donor = Finaldf[Finaldf['Sector'] == 'All sectors'].groupby('Donor')['Sector_ODA_Millions'].sum().idxmax()
@@ -76,11 +80,14 @@ if section == "AID Landscape":
                      title=f"ODA by Sector in {year}", color_discrete_sequence=px.colors.sequential.Blues)
     fig_pie.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
     st.plotly_chart(fig_pie, use_container_width=True)
-
+    
+st.markdown('</div>', unsafe_allow_html=True)
 # ------------------------------
 # HEALTHCARE INDICATORS TAB
 # ------------------------------
 elif section == "Healthcare Indicators":
+    st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
+
     st.subheader("💉 Maternal Mortality and Health ODA")
     country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
     healthcare_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Reproductive health care')]
@@ -99,10 +106,15 @@ elif section == "Healthcare Indicators":
     )
     st.plotly_chart(fig_health, use_container_width=True)
 
+    st.markdown('</div>', unsafe_allow_html=True)
+
 # ------------------------------
 # EDUCATION INDICATORS TAB
 # ------------------------------
 elif section == "Education Indicators":
+
+    st.markdown('<div class="Education-section">', unsafe_allow_html=True)
+
     st.subheader("📚 Education ODA vs Literacy Rate")
     country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='edu_country')
     edu_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Education')]
@@ -120,9 +132,16 @@ elif section == "Education Indicators":
     )
     st.plotly_chart(fig_edu, use_container_width=True)
 
+    st.markdown('</div>', unsafe_allow_html=True)
+
 # ------------------------------
 # CORRUPTION INDICATORS TAB
 # ------------------------------
 elif section == "Corruption Indicators":
+
+    st.markdown('<div class="Couruption-section">', unsafe_allow_html=True)
+
     st.subheader("🔍 Placeholder: Corruption and ODA")
     st.info("Add charts related to ODA vs CPI, governance, or anti-corruption indicators here.")
+
+    st.markdown('</div>', unsafe_allow_html=True)
