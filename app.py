@@ -139,7 +139,7 @@ elif section == "Healthcare Indicators":
         st.markdown('</div>', unsafe_allow_html=True)
 
         left, center, right = st.columns([1, 6, 1])
-   with center:
+    with center:
 
         st.markdown("<h5 style='margin-top: 1rem; margin-bottom: -0.5rem;'>Water & Sanitation ODA vs Population using Basic Sanitation</h5>", unsafe_allow_html=True)
         sanitation_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Water supply & sanitation')].groupby('Year').agg({
