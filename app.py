@@ -139,7 +139,7 @@ elif section == "Healthcare Indicators":
         fig_malaria.update_layout(height=270, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
         yaxis2=dict(title='Malaria Rate (per 1,000)', overlaying='y', side='right'))
 
-        yaxis2=dict(title='Malaria Rate (per 1,000)',overlaying='y',side='right',range=[0,800])
+        yaxis2=dict(title='Malaria Rate (per 1000)',overlaying='y',side='right',range=[0,1200])
         
         yaxis=dict(title='Malaria Control ODA (Millions)',range=[0, malaria_data['Sector_ODA_Millions'].max() * 3])
         
