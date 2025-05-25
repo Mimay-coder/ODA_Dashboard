@@ -24,16 +24,13 @@ div.block-container {
 
 /* Sidebar spacing and appearance */
 .css-1d391kg, .css-1lcbmhc {
-  padding-top: 1rem !important;
-  padding-bottom: 1rem !important;
+  padding-top: 0.0rem !important;
+  padding-bottom: 0.0rem !important;
+  padding-left: 0.0rem !important;
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
 }
 
-/* Narrow gap between sidebar and main content */
-main > div {
-  padding-left: 0.0rem !important;
-}
 
 /* Hide hamburger menu */
 div.css-r698ls.e8zbici2 {
