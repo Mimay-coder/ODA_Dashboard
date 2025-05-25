@@ -192,26 +192,47 @@ elif section == "Healthcare Indicators":
 # ------------------------------
 elif section == "Education Indicators":
 
-    st.markdown('<div class="education-section">', unsafe_allow_html=True)
+        st.markdown('<div class="education-section">', unsafe_allow_html=True)
+        country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
+        col_Primary, col_Enrollment = st.columns((5,5))
+    with col_Primary:
+        st.markdown("<h5 style='margin-bottom: -1.8rem;'>Primary Education ODA vs Primary Completion</h5>", unsafe_allow_html=True)
+        primary_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Primary education')]
+        primary_data = healthcare_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Primary_Completion': 'mean'
+         }).reset_index()
+        
+        fig_primary = px.line(primary_data, x='Year', y='Sector_ODA_Millions', labels={'Sector_ODA_Millions': 'Primary Education ODA (Millions)'})
+        fig_primary.add_scatter(x=healthcare_data['Year'], y=primary_data['Primary_Completion'],
+                           name='Primary Completion Rate', yaxis='y2')
+        fig_primary.update_layout(
+        yaxis2=dict(title='Primary Completion Rate', overlaying='y', side='right', range=[0, primary_data['Primary_Completion'].max() * 2]),
+        height=270, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2))
+ 
+        yaxis=dict(title='Primary Education ODA (Millions)',range=[0, primary_data['Sector_ODA_Millions'].max() * 2])
+        
+        st.plotly_chart(fig_primary, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
 
-    st.subheader("📚 Education ODA vs Literacy Rate")
-    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='edu_country')
-    edu_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Education')]
-    edu_data = edu_data[edu_data['Total_Literacy'] > 0].groupby('Year').agg({
-        'Sector_ODA_Millions': 'sum',
-        'Total_Literacy': 'mean'
-    }).reset_index()
+    with col_Enrollment:
+        st.markdown("<h5 style='margin-bottom: -1.9rem;'> Total Basic Education ODA vs Total School Enrollment Rate</h5>", unsafe_allow_html=True)
+        Enroll_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Basic education')
+        ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','School_Enrol_All': 'mean'}).reset_index()
+        fig_Enroll = px.line(Enroll_data, x='Year', y='Sector_ODA_Millions',
+                          labels={'Sector_ODA_Millions': 'Total Basic Education ODA (Millions)'})
+        fig_Enroll.add_scatter(x=Enroll_data['Year'],
+                            y=Enroll_data['School_Enrol_All'],
+                            name='Total School Enrollment %',
+                            yaxis='y2')
+        fig_Enroll.update_layout(height=270, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
+        yaxis2=dict(title='Total School Enrollment%'',overlaying='y',side='right',range=[0,100]))
+        
+        yaxis=dict(title='Total Basic Education ODA (Millions)',range=[0, Enroll_data['Sector_ODA_Millions'].max() * 3])
+        
+        st.plotly_chart(fig_malaria, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    fig_edu = px.line(edu_data, x='Year', y='Sector_ODA_Millions', labels={'Sector_ODA_Millions': 'ODA (Millions)'})
-    fig_edu.add_scatter(x=edu_data['Year'], y=edu_data['Total_Literacy'], name='Literacy Rate (%)', yaxis='y2')
-    fig_edu.update_layout(
-        yaxis2=dict(title='Literacy Rate (%)', overlaying='y', side='right'),
-        title=f"Education ODA and Literacy Rate in {country}",
-        height=400, margin=dict(t=10, b=10, l=10, r=10)
-    )
-    st.plotly_chart(fig_edu, use_container_width=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------
 # CORRUPTION INDICATORS TAB
