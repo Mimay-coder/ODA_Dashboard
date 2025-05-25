@@ -17,7 +17,7 @@ st.sidebar.markdown("---")
 section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
 
 year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
-country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
+#country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
 
 # ------------------------------
 # AID LANDSCAPE TAB (Start)
@@ -28,7 +28,7 @@ if section == "AID Landscape":
     total_oda = Finaldf[Finaldf['Sector'] == 'All sectors']['Sector_ODA_Millions'].sum()
     top_donor = Finaldf[Finaldf['Sector'] == 'All sectors'].groupby('Donor')['Sector_ODA_Millions'].sum().idxmax()
     top_country = Finaldf.groupby('Country')['oda_per_capita_usd'].mean().idxmax()
-    top_sector = Finaldf.groupby('Sector')['Sector_ODA_Millions'].sum().idxmax()
+    top_sector = (Finaldf[Finaldf['Sector'] != 'All sectors'].groupby('Sector')['Sector_ODA_Millions'].sum().idxmax())
 
     #st.markdown("Summary Statistics")
     col1, col2, col3, col4 = st.columns(4)
