@@ -82,16 +82,16 @@ if section == "AID Landscape":
         st.markdown("<h5 style='margin-bottom: -0.5rem;'>ODA by Channel</h5>", unsafe_allow_html=True)
         # Filter data for the selected year and non-null channel
         sector_filtered2 = Finaldf[
-        (Finaldf['Year'] == channel_year) &
+        (Finaldf['Year'] == year) &
         (Finaldf['Channel'].notnull())]
         
         if sector_filtered2.empty:
-            st.warning(f"No data for year {channel_year}")
+            st.warning(f"No data for year {year}")
         else:
             sector_sum = sector_filtered2.groupby('Channel')['Sector_ODA_Millions'].sum().reset_index()
             
             fig_channel = px.pie(sector_sum,names='Channel',values='Sector_ODA_Millions',hole=0.3,
-            title=f'ODA by Channel - {channel_year}',color_discrete_sequence=["#08306B", "#08519C", "#2171B5", "#4292C6", "#6BAED6",
+            title=f'ODA by Channel - {year}',color_discrete_sequence=["#08306B", "#08519C", "#2171B5", "#4292C6", "#6BAED6",
                                                                               "#9ECAE1", "#C6DBEF", "#DEEBF7"])
             fig_channel.update_traces(texttemplate='%{percent:.1%}')
             fig_channel.update_layout(height=250,margin=dict(t=10, b=10, l=10, r=10),legend=dict(orientation="h", y=-0.3))
