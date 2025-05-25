@@ -19,7 +19,7 @@ year = st.slider("Year", 2000, 2020, 2019, key='year')
 country = st.selectbox("Country", sorted(Finaldf['Country'].unique()), key='country')
 
 # ------------------------------
-# AID LANDSCAPE TAB
+# AID LANDSCAPE TAB (Start)
 # ------------------------------
 if section == "AID Landscape":
     total_oda = Finaldf[Finaldf['Sector'] == 'All sectors']['Sector_ODA_Millions'].sum()
@@ -34,26 +34,26 @@ if section == "AID Landscape":
     col4.metric("\U0001F3E7 Top Sector", top_sector)
 
     st.markdown("---")
-    st.markdown("### \U0001F30D ODA Map and Top Donors")
-    col5, col6 = st.columns([1, 1])
-    with col5:
-        map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
-        fig_map = px.scatter_geo(
-            map_data,
-            locations="Country",
-            locationmode="country names",
-            size="oda_per_capita_usd",
-            color="oda_per_capita_usd",
-            color_continuous_scale="Blues",
-            range_color=(0, map_data["oda_per_capita_usd"].max()),
-            hover_name="Country",
-            scope="africa",
-            projection="natural earth"
-        )
-        fig_map.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
-        fig_map.update_layout(height=300, width=400)
-        st.plotly_chart(fig_map, use_container_width=False)
+    st.markdown("### \U0001F30D ODA per Capita by Country")
 
+    map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
+    fig_map = px.choropleth(
+        map_data,
+        locations="Country",
+        locationmode="country names",
+        color="oda_per_capita_usd",
+        color_continuous_scale="Blues",
+        range_color=(0, map_data["oda_per_capita_usd"].max()),
+        hover_name="Country",
+        scope="africa",
+        projection="natural earth",
+        title="ODA per Capita by Country"
+    )
+    fig_map.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
+    fig_map.update_layout(height=300, width=400)
+    st.plotly_chart(fig_map, use_container_width=False)
+
+    col6, _ = st.columns([1, 1])
     with col6:
         donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
         fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
@@ -119,5 +119,3 @@ elif section == "Education Indicators":
 elif section == "Corruption Indicators":
     st.subheader("\U0001F50E Placeholder: Corruption and ODA")
     st.info("Add charts related to ODA vs CPI, governance, or anti-corruption indicators here.")
-
-
