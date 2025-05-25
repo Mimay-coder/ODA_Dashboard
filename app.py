@@ -61,10 +61,8 @@ if section == "AID Landscape":
 
     with col_pie:
         st.markdown("ODA by Sector")
-        selected_sectors = ['Agriculture', 'Education', 'Health',
-                            'Water supply and sanitation - large systems',
-                            'Conflict, peace and security',
-                            'Economic infrastructure and services']
+        selected_sectors = ['Agriculture, forestry, fishing', 'Education', 'Health','Water supply & sanitation',
+                            'Government and civil society','Economic infrastructure and services']
         sector_data = Finaldf[(Finaldf['Year'] == year) & Finaldf['Sector'].isin(selected_sectors)]
         sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
         fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
@@ -72,16 +70,33 @@ if section == "AID Landscape":
         fig_pie.update_layout(height=200, margin=dict(t=0, b=0, l=4, r=6), legend=dict(orientation="v", y=0.5))
         st.plotly_chart(fig_pie, use_container_width=True)
 
-    
-    with st.container():
+    col_donor, col_channel = st.columns((5,5))
+    with col_donor, st.container():
          st.markdown("<h5 style='margin-bottom: -2.1rem;'>Top Donors</h5>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
          fig_donor.update_layout(height=220, margin=dict(t=0, b=0, l=3, r=3))
          st.plotly_chart(fig_donor, use_container_width=True)
-
-
-         st.markdown('</div>', unsafe_allow_html=True)
+    
+    with col_channel:
+        st.markdown("<h5 style='margin-bottom: -0.5rem;'>ODA by Channel</h5>", unsafe_allow_html=True)
+        # Filter data for the selected year and non-null channel
+        sector_filtered2 = Finaldf[
+        (Finaldf['Year'] == channel_year) &
+        (Finaldf['Channel'].notnull())]
+        
+        if sector_filtered2.empty:
+            st.warning(f"No data for year {channel_year}")
+        else:
+            sector_sum = sector_filtered2.groupby('Channel')['Sector_ODA_Millions'].sum().reset_index()
+            
+            fig_channel = px.pie(sector_sum,names='Channel',values='Sector_ODA_Millions',hole=0.3,
+            title=f'ODA by Channel - {channel_year}',color_discrete_sequence=["#08306B", "#08519C", "#2171B5", "#4292C6", "#6BAED6",
+                                                                              "#9ECAE1", "#C6DBEF", "#DEEBF7"])
+            fig_channel.update_traces(texttemplate='%{percent:.1%}')
+            fig_channel.update_layout(height=250,margin=dict(t=10, b=10, l=10, r=10),legend=dict(orientation="h", y=-0.3))
+            st.plotly_chart(fig_channel, use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------
 # HEALTHCARE INDICATORS TAB
