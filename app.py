@@ -151,9 +151,9 @@ elif section == "Healthcare Indicators":
         fig_sanitation.update_layout(height=250,margin=dict(t=10, b=10, l=10, r=10),legend=dict(orientation="h", y=-0.3),
         yaxis2=dict(title='Population using basic sanitation (%)',overlaying='y',side='right'))
         
-       st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
-       st.plotly_chart(fig_sanitation, use_container_width=False, width=700)
-       st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
+        st.plotly_chart(fig_sanitation, use_container_width=False, width=700)
+        st.markdown("</div>", unsafe_allow_html=True)
      
 
 # ------------------------------
