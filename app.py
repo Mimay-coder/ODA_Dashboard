@@ -1,5 +1,3 @@
-import os
-os.environ["STREAMLIT_CONFIG_DIR"] = os.path.join(os.getcwd(), ".streamlit")
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -9,14 +7,13 @@ Finaldf = pd.read_csv("Finaldf.csv")
 
 # Page configuration
 st.set_page_config(layout="centered", page_title="ODA Dashboard", page_icon="📊")
-st.title("\U0001F4CA West Africa ODA Dashboard (2000–2020)")
 
-# Sidebar navigation
-section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
+# Sidebar
+with st.sidebar:
+    st.markdown("<h5 style='text-align: center;'>📊 West Africa ODA Dashboard (2000–2020)</h5>", unsafe_allow_html=True)
+    section = st.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
 
-# Shared interactive widgets
-year = st.slider("Year", 2000, 2020, 2019, key='year')
-country = st.selectbox("Country", sorted(Finaldf['Country'].unique()), key='country')
+st.markdown("<style> .block-container {padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;} </style>", unsafe_allow_html=True)
 
 # ------------------------------
 # AID LANDSCAPE TAB (Start)
@@ -35,7 +32,7 @@ if section == "AID Landscape":
 
     st.markdown("---")
     st.markdown("### \U0001F30D ODA per Capita by Country")
-
+    year = st.slider("Select Year", 2000, 2020, 2019, key='aid_year')
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
     fig_map = px.choropleth(
         map_data,
@@ -50,15 +47,15 @@ if section == "AID Landscape":
         title="ODA per Capita by Country"
     )
     fig_map.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
-    fig_map.update_layout(height=300, width=400)
-    st.plotly_chart(fig_map, use_container_width=False)
+    fig_map.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
 
-    col6, _ = st.columns([1, 1])
-    with col6:
-        donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
-        fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
-        fig_donor.update_layout(height=300, width=400)
-        st.plotly_chart(fig_donor, use_container_width=False)
+    donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
+    fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
+    fig_donor.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
+
+    col_map, col_donor = st.columns(2)
+    col_map.plotly_chart(fig_map, use_container_width=True)
+    col_donor.plotly_chart(fig_donor, use_container_width=True)
 
     st.markdown("### \U0001F967 ODA by Sector")
     selected_sectors = ['Agriculture', 'Education', 'Health',
@@ -69,14 +66,15 @@ if section == "AID Landscape":
     sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
     fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
                      title=f"ODA by Sector in {year}", color_discrete_sequence=px.colors.sequential.Blues)
-    fig_pie.update_layout(height=300, width=400)
-    st.plotly_chart(fig_pie, use_container_width=False)
+    fig_pie.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
+    st.plotly_chart(fig_pie, use_container_width=True)
 
 # ------------------------------
 # HEALTHCARE INDICATORS TAB
 # ------------------------------
 elif section == "Healthcare Indicators":
     st.subheader("\U0001F489 Maternal Mortality and Health ODA")
+    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
     healthcare_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Reproductive health care')]
     healthcare_data = healthcare_data.groupby('Year').agg({
         'Sector_ODA_Millions': 'sum',
@@ -89,7 +87,7 @@ elif section == "Healthcare Indicators":
     fig_health.update_layout(
         yaxis2=dict(title='Maternal Mortality', overlaying='y', side='right'),
         title=f"Reproductive Health ODA and Maternal Mortality in {country}",
-        height=400
+        height=400, margin=dict(t=10, b=10, l=10, r=10)
     )
     st.plotly_chart(fig_health, use_container_width=True)
 
@@ -98,6 +96,7 @@ elif section == "Healthcare Indicators":
 # ------------------------------
 elif section == "Education Indicators":
     st.subheader("\U0001F4D6 Education ODA vs Literacy Rate")
+    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='edu_country')
     edu_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Education')]
     edu_data = edu_data[edu_data['Total_Literacy'] > 0].groupby('Year').agg({
         'Sector_ODA_Millions': 'sum',
@@ -109,7 +108,7 @@ elif section == "Education Indicators":
     fig_edu.update_layout(
         yaxis2=dict(title='Literacy Rate (%)', overlaying='y', side='right'),
         title=f"Education ODA and Literacy Rate in {country}",
-        height=400
+        height=400, margin=dict(t=10, b=10, l=10, r=10)
     )
     st.plotly_chart(fig_edu, use_container_width=True)
 
@@ -119,3 +118,4 @@ elif section == "Education Indicators":
 elif section == "Corruption Indicators":
     st.subheader("\U0001F50E Placeholder: Corruption and ODA")
     st.info("Add charts related to ODA vs CPI, governance, or anti-corruption indicators here.")
+
