@@ -106,7 +106,7 @@ elif section == "Healthcare Indicators":
     country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
     col1, col2 = st.columns((5,5))
     with col1:
-        st.markdown("<h5 style='margin-bottom: -2.1rem;'>Reproductive Health ODA vs Maternal Mortality</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.8rem;'>Reproductive Health ODA vs Maternal Mortality</h5>", unsafe_allow_html=True)
         healthcare_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Reproductive health care')]
         healthcare_data = healthcare_data.groupby('Year').agg({
         'Sector_ODA_Millions': 'sum',
@@ -117,8 +117,8 @@ elif section == "Healthcare Indicators":
         fig_health.add_scatter(x=healthcare_data['Year'], y=healthcare_data['Maternal_Mortality'],
                            name='Maternal Mortality', yaxis='y2')
         fig_health.update_layout(
-        yaxis2=dict(title='Maternal Mortality per 1000', overlaying='y', side='right', range=[0, healthcare_data['Maternal_Mortality'].max() * 1]),
-        height=250, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2))
+        yaxis2=dict(title='Maternal Mortality per 1000', overlaying='y', side='right', range=[0, healthcare_data['Maternal_Mortality'].max() * 2]),
+        height=270, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2))
  
         yaxis=dict(title='Reproductive ODA (Millions)',range=[0, healthcare_data['Sector_ODA_Millions'].max() * 4])
         
