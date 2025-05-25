@@ -37,13 +37,13 @@ if section == "AID Landscape":
     col3.metric("Highest ODA per Capita", top_country)
     col4.metric("Top Sector", top_sector)
 
-    st.markdown("---")
+    st.markdown("<hr style='margin-top: 0rem; margin-bottom: 0.5rem;'>", unsafe_allow_html=True)
 
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
 
     col_map, col_pie = st.columns((5,5))
     with col_map:
-        st.markdown("<h5 style='margin-bottom: -2.5rem;'>ODA per Capita by Country Donors</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -2.1rem;'>ODA per Capita by Country Donors</h5>", unsafe_allow_html=True)
         fig_map = px.choropleth(
             map_data,
             locations="Country",
@@ -93,7 +93,7 @@ if section == "AID Landscape":
                                  color_discrete_sequence=["#08306B", "#08519C", "#2171B5", "#4292C6", "#6BAED6",
                                                                               "#9ECAE1", "#C6DBEF", "#DEEBF7"])
             fig_channel.update_traces(texttemplate='%{percent:.1%}')
-            fig_channel.update_layout(height=250,margin=dict(t=0, b=5, l=0, r=0),legend=dict(orientation="v", y=0.5))
+            fig_channel.update_layout(height=250,margin=dict(t=0, b=5, l=2, r=0),legend=dict(orientation="v", y=0.5))
             st.plotly_chart(fig_channel, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
