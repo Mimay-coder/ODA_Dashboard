@@ -1,0 +1,34 @@
+/* Tighten layout spacing */
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 1400px;
+}
+
+/* Sidebar styling */
+.css-1d391kg, .css-1lcbmhc {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+}
+
+/* Sidebar radio button styling */
+.stRadio > label {
+    font-size: 0.95rem;
+}
+
+/* Main title in sidebar */
+.sidebar .stMarkdown h5 {
+    font-size: 1rem !important;
+    font-weight: 600;
+    text-align: center;
+    color: #333;
+}
+
+/* Hide Streamlit's default menu and footer */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
