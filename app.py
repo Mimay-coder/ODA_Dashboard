@@ -40,7 +40,7 @@ if section == "AID Landscape":
 
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
 
-    col_map, col_donor = st.columns((5, 5))
+    col_map, col_pie = st.columns((6, 4))
     with col_map:
         st.markdown("ODA per Capita by Country")
         fig_map = px.choropleth(
@@ -55,27 +55,29 @@ if section == "AID Landscape":
             projection="natural earth",
         )
         fig_map.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
-        fig_map.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
+        fig_map.update_layout(height=400, margin=dict(t=10, b=10, l=10, r=10))
         st.plotly_chart(fig_map, use_container_width=True)
 
-    with col_donor:
-        st.markdown("Top Donors")
-        donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
-        fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
-        fig_donor.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
-        st.plotly_chart(fig_donor, use_container_width=True)
+    with col_pie:
+        st.markdown("ODA by Sector")
+        selected_sectors = ['Agriculture', 'Education', 'Health',
+                            'Water supply and sanitation - large systems',
+                            'Conflict, peace and security',
+                            'Economic infrastructure and services']
+        sector_data = Finaldf[(Finaldf['Year'] == year) & Finaldf['Sector'].isin(selected_sectors)]
+        sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
+        fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
+                         title=f"ODA by Sector in {year}", color_discrete_sequence=px.colors.sequential.Blues)
+        fig_pie.update_layout(height=400, margin=dict(t=10, b=40, l=10, r=10), legend=dict(orientation="h", y=-0.2))
+        st.plotly_chart(fig_pie, use_container_width=True)
 
-    st.markdown("ODA by Sector")
-    selected_sectors = ['Agriculture', 'Education', 'Health',
-                        'Water supply and sanitation - large systems',
-                        'Conflict, peace and security',
-                        'Economic infrastructure and services']
-    sector_data = Finaldf[(Finaldf['Year'] == year) & Finaldf['Sector'].isin(selected_sectors)]
-    sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
-    fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
-                     title=f"ODA by Sector in {year}", color_discrete_sequence=px.colors.sequential.Blues)
-    fig_pie.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
-    st.plotly_chart(fig_pie, use_container_width=True)
+    st.markdown("---")
+
+    st.markdown("Top Donors")
+    donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
+    fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
+    fig_donor.update_layout(height=400, margin=dict(t=10, b=10, l=10, r=10))
+    st.plotly_chart(fig_donor, use_container_width=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
