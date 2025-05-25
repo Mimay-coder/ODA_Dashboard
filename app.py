@@ -6,7 +6,7 @@ import plotly.express as px
 Finaldf = pd.read_csv("Finaldf.csv")
 
 # Page configuration
-st.set_page_config(layout='wide', page_title="ODA Dashboard", initial_sidebar_state='expanded')
+st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
 with open("style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -17,7 +17,7 @@ st.sidebar.markdown("---")
 section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
 
 year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
-st.markdown("<style> .block-container {padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;} </style>", unsafe_allow_html=True)
+#st.markdown("<style> .block-container {padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;} </style>", unsafe_allow_html=True)
 
 # ------------------------------
 # AID LANDSCAPE TAB (Start)
@@ -28,7 +28,7 @@ if section == "AID Landscape":
     top_country = Finaldf.groupby('Country')['oda_per_capita_usd'].mean().idxmax()
     top_sector = Finaldf.groupby('Sector')['Sector_ODA_Millions'].sum().idxmax()
 
-    st.markdown("## Summary Statistics")
+    st.markdown("Summary Statistics")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total ODA", f"${total_oda/1e3:.1f}B")
     col2.metric("Top Donor", top_donor)
@@ -42,7 +42,7 @@ if section == "AID Landscape":
 
     col_map, col_donor = st.columns((7, 3))
     with col_map:
-        st.markdown("### 🌍 ODA per Capita by Country")
+        st.markdown("ODA per Capita by Country")
         fig_map = px.choropleth(
             map_data,
             locations="Country",
@@ -59,13 +59,13 @@ if section == "AID Landscape":
         st.plotly_chart(fig_map, use_container_width=True)
 
     with col_donor:
-        st.markdown("### 📊 Top Donors")
+        st.markdown("Top Donors")
         donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
         fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
         fig_donor.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10))
         st.plotly_chart(fig_donor, use_container_width=True)
 
-    st.markdown("### 🥧 ODA by Sector")
+    st.markdown("ODA by Sector")
     selected_sectors = ['Agriculture', 'Education', 'Health',
                         'Water supply and sanitation - large systems',
                         'Conflict, peace and security',
