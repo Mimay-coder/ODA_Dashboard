@@ -215,19 +215,19 @@ elif section == "Education Indicators":
         
 
     with col_Enrollment:
-        st.markdown("<h5 style='margin-bottom: -1.9rem;'> Total Basic Education ODA vs Total School Enrollment Rate</h5>", unsafe_allow_html=True)
-        Enroll_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Basic education')
-        ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','School_Enrol_All': 'mean'}).reset_index()
-        fig_Enroll = px.line(Enroll_data, x='Year', y='Sector_ODA_Millions',
-        labels={'Sector_ODA_Millions': 'Total Basic Education ODA (Millions)'})
-        fig_Enroll.add_scatter(x=Enroll_data['Year'],
-                            y=Enroll_data['School_Enrol_All'],
-                            name='Total School Enrollment %',
-                            yaxis='y2')
-        fig_Enroll.update_layout(height=270, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
-        yaxis2=dict(title='Total School Enrollment%',overlaying='y',side='right',range=[0,100]))
+        st.markdown("<h5 style='margin-bottom: -1.8rem;'>Basic Education ODA vs Total Enrollment</h5>", unsafe_allow_html=True)
+        Enroll_data = Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Sector'] == 'School_Enrol_All') & (Finaldf1['Year'].between(2000, 2019))]
+        Enroll_data = Enroll_data[(Enroll_data['Sector_ODA_Millions'] != 0) & (Enroll_data['School_Enrol_All'] != 0)].dropna()
+        Enroll_data = Enroll_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','School_Enrol_All': 'mean'}).reset_index()
         
-        yaxis=dict(title='Total Basic Education ODA (Millions)',range=[0, Enroll_data['Sector_ODA_Millions'].max() * 3])
+        fig_Enroll = px.line(Enroll_data, x='Year', y='Sector_ODA_Millions', labels={'Sector_ODA_Millions': 'Basic Education ODA (Millions)'})
+        fig_Enroll.add_scatter(x=Enroll_data['Year'], y=Enroll_data['School_Enrol_All'],
+                           name='Total School Enrollment', yaxis='y2')
+        fig_Enroll.update_layout(
+        yaxis2=dict(title='Total School Enrollment', overlaying='y', side='right', range=[0, Enroll_data['School_Enrol_All'].max() * 2]),
+        height=270, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2))
+ 
+        yaxis=dict(title='Basic Education ODA (Millions)',range=[0, Enroll_data['Sector_ODA_Millions'].max() * 2])
         
         st.plotly_chart(fig_Enroll, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
