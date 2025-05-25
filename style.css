@@ -30,6 +30,11 @@ div.block-container {
   border-right: 1px solid #dee2e6;
 }
 
+/* Narrow gap between sidebar and main content */
+main > div {
+  padding-left: 1rem !important;
+}
+
 /* Hide hamburger menu */
 div.css-r698ls.e8zbici2 {
   display: none;
@@ -55,21 +60,26 @@ header {visibility: hidden;}
 
 /* 🎯 Style metrics inside aid-landscape-section */
 .aid-landscape-section div[data-testid="stMetric"] {
-  font-size: 0.85rem;
-  padding: 0.3rem;
+  font-size: 0.65rem;
+  padding: 0.25rem 0.5rem;
 }
 
 .aid-landscape-section div[data-testid="stMetric"] > label {
   font-size: 0.75rem;
   font-weight: 600;
   color: #444;
+  line-height:1.0;
 }
 
 .aid-landscape-section div[data-testid="stMetric"] > div {
-  font-size: 1.05rem;
+  font-size: 0.85rem;
   color: #0072B2;
 }
 
+/* Tighten up vertical spacing */
+.aid-landscape-section {
+  margin-bottom: 1rem;
+}
 
 .healthcare-section {
   margin-top: -1em;
