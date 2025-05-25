@@ -15,7 +15,7 @@ with open("style.css") as f:
 st.sidebar.header("West Africa ODA Dashboard (2000–2020)")
 st.sidebar.markdown("---")
 section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
-st.markdown("---")
+
 year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
 st.markdown("<style> .block-container {padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;} </style>", unsafe_allow_html=True)
 
@@ -28,7 +28,7 @@ if section == "AID Landscape":
     top_country = Finaldf.groupby('Country')['oda_per_capita_usd'].mean().idxmax()
     top_sector = Finaldf.groupby('Sector')['Sector_ODA_Millions'].sum().idxmax()
 
-    st.markdown("## 💡 Summary Statistics")
+    st.markdown("## Summary Statistics")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total ODA", f"${total_oda/1e3:.1f}B")
     col2.metric("Top Donor", top_donor)
