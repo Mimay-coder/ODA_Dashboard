@@ -53,19 +53,23 @@ footer {visibility: hidden;}
 header {visibility: hidden;}
 
 
-.aid-landscape-section {
-  margin-top: -1em;
-  margin-bottom: 2em;
-  padding: 1em;
+/* 🎯 Style metrics inside aid-landscape-section */
+.aid-landscape-section div[data-testid="stMetric"] {
+  font-size: 0.85rem;
+  padding: 0.2rem;
 }
 
-.aid-landscape-section .css-1ht1j8u {
-  font-size: 0.75rem !important;
+.aid-landscape-section div[data-testid="stMetric"] > label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #444;
 }
 
-.aid-landscape-section .css-1dp5vir {
-  font-size: 1.1rem !important;
+.aid-landscape-section div[data-testid="stMetric"] > div {
+  font-size: 1.05rem;
+  color: #0072B2;
 }
+
 
 .healthcare-section {
   margin-top: -1em;
