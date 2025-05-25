@@ -6,7 +6,7 @@ import plotly.express as px
 Finaldf = pd.read_csv("Finaldf.csv")
 
 # Page configuration
-st.set_page_config(layout='wide', page_title="ODA Dashboard", initial_sidebar_state='expanded', page_icon="📊")
+st.set_page_config(layout='wide', page_title="ODA Dashboard", initial_sidebar_state='expanded')
 
 # Load custom style (if available)
 try:
