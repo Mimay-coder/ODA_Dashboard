@@ -265,22 +265,24 @@ elif section == "Education Indicators":
 # CORRUPTION INDICATORS TAB
 # ------------------------------
 elif section == "Corruption Indicators":
+st.markdown('<div class="corruption-section">', unsafe_allow_html=True)
+st.markdown("<h5 style='margin-bottom: 2rem;'>Aid Effectiveness Ratio Heat Map</h5>", unsafe_allow_html=True)
 
-    st.markdown('<div class="corruption-section">', unsafe_allow_html=True)
-    st.markdown("<h5 style='margin-bottom: 2rem;'>Aid Effectiveness Ratio Heat Map</h5>", unsafe_allow_html=True)
-    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key="heatmap_country")
-    
-    # Define sectors and matching indicators
-    sector_indicator_map = {
+country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key="heatmap_country")
+
+# Define sectors and matching indicators
+sector_indicator_map = {
     'Reproductive health care': 'Maternal_Mortality',
     'Malaria control': 'Malaria_RATE_PER_1000_N',
     'Water supply & sanitation': 'Population_using_basic_sanitation%',
     'Basic nutrition': 'Undernourishment',
     'Primary education': 'Primary_Completion',
-    'Education': 'Total_Literacy'}
-    
-    results = []
-    # Loop through each sector-indicator pair
+    'Education': 'Total_Literacy'
+}
+
+results = []
+
+# Loop through each sector-indicator pair
 for sector, indicator in sector_indicator_map.items():
     df_sector = Finaldf[
         (Finaldf['Country'] == country) &
@@ -298,27 +300,33 @@ for sector, indicator in sector_indicator_map.items():
 
         delta_val = val_2020 - val_2000
         delta_oda = oda_2020 - oda_2000
-
         ratio = np.nan if delta_oda == 0 else round(delta_val / delta_oda, 4)
-        
-        results.append({
+
+    results.append({
         "Sector": sector,
         "Indicator": indicator,
-        "Aid Effectiveness Ratio": ratio})
-        
-        # Convert to DataFrame for heatmap
-        heatmap_df = pd.DataFrame(results)
-        
-        # Pivot to make heatmap-friendly
-        pivot_df = heatmap_df.pivot(index="Indicator", columns="Sector", values="Aid Effectiveness Ratio")
+        "Aid Effectiveness Ratio": ratio
+    })
 
-        # Plot heatmap using Plotly
-        fig = px.imshow(pivot_df,text_auto=".2f",aspect="auto",color_continuous_scale="RdBu_r",labels=dict(color="AER"),
-        title=f"Aid Effectiveness Ratios in {country} (2000–2020)")
-        fig.update_layout(height=500, margin=dict(t=50, b=50, l=10, r=10))
-        st.plotly_chart(fig, use_container_width=True)
+# ⬇️ Outside the loop — generate the heatmap only once after data is ready
+heatmap_df = pd.DataFrame(results)
+pivot_df = heatmap_df.pivot(index="Indicator", columns="Sector", values="Aid Effectiveness Ratio")
+
+fig = px.imshow(
+    pivot_df,
+    text_auto=".2f",
+    aspect="auto",
+    color_continuous_scale="RdBu_r",
+    labels=dict(color="AER"),
+    title=f"Aid Effectiveness Ratios in {country} (2000–2020)"
+)
+fig.update_layout(height=500, margin=dict(t=50, b=50, l=10, r=10))
+st.plotly_chart(fig, use_container_width=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
         
-        st.markdown('</div>', unsafe_allow_html=True)
+  
 
 
 
