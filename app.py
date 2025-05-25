@@ -4,6 +4,7 @@ import plotly.express as px
 
 # Load data
 Finaldf = pd.read_csv("Finaldf.csv")
+Finaldf1 = pd.read_csv("Finaldf_Original.csv")
 
 # Page configuration
 st.set_page_config(layout='wide', initial_sidebar_state='expanded')
@@ -196,7 +197,7 @@ elif section == "Education Indicators":
     col_Primary, col_Enrollment = st.columns((5,5))
     with col_Primary:
         st.markdown("<h5 style='margin-bottom: -1.8rem;'>Primary Education ODA vs Primary Completion</h5>", unsafe_allow_html=True)
-        primary_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Primary education') & (Finaldf['Year'].between(2000, 2019))]
+        primary_data = Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Sector'] == 'Primary education') & (Finaldf1['Year'].between(2000, 2019))]
         primary_data = primary_data[(primary_data['Sector_ODA_Millions'] != 0) & (primary_data['Primary_Completion'] != 0)].dropna()
         primary_data = primary_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Primary_Completion': 'mean'}).reset_index()
         
