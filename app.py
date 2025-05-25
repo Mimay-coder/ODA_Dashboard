@@ -68,15 +68,15 @@ if section == "AID Landscape":
         sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
         fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
                          color_discrete_sequence=px.colors.sequential.Blues)
-        fig_pie.update_layout(height=300, margin=dict(t=5, b=5, l=5, r=5), legend=dict(orientation="v", y=0.5))
+        fig_pie.update_layout(height=200, margin=dict(t=4, b=4, l=4, r=4), legend=dict(orientation="v", y=0.5))
         st.plotly_chart(fig_pie, use_container_width=True)
 
     
     with st.container():
-         st.markdown("<div style='margin-top: -5rem; margin-bottom: 0.5rem;'>Top Donors</div>", unsafe_allow_html=True)
+         st.markdown("<div style='margin-top: -5rem; margin-bottom: -1rem;'>Top Donors</div>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
-         fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
-         fig_donor.update_layout(height=200, margin=dict(t=5, b=5, l=5, r=5))
+         fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
+         fig_donor.update_layout(height=250, margin=dict(t=5, b=5, l=5, r=5))
          st.plotly_chart(fig_donor, use_container_width=True)
 
 
