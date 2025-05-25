@@ -137,8 +137,8 @@ elif section == "Healthcare Indicators":
                                  )
         st.plotly_chart(fig_malaria, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
-
- with col2:
+        
+    with:
         st.markdown("<h5 style='margin-bottom: -2.1rem;'>Water & Sanitation ODA vs Population using basic sanitation</h5>", unsafe_allow_html=True)
         sanitation_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Water supply & sanitation')
         ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','Population_using_basic_sanitation%': 'mean'}).reset_index()
