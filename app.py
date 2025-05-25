@@ -138,7 +138,7 @@ elif section == "Healthcare Indicators":
         st.plotly_chart(fig_malaria, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        
+        # Adding sanitation graph
 
         st.markdown("<h5 style='margin-top: 1rem; margin-bottom: -0.5rem;'>Water & Sanitation ODA vs Population using Basic Sanitation</h5>", unsafe_allow_html=True)
         sanitation_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Water supply & sanitation')].groupby('Year').agg({
@@ -152,7 +152,7 @@ elif section == "Healthcare Indicators":
         yaxis2=dict(title='Population using basic sanitation (%)',overlaying='y',side='right'))
         
         st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
-        st.plotly_chart(fig_sanitation, use_container_width=False, width=700)
+        st.plotly_chart(fig_sanitation, use_container_width=False, width=900)
         st.markdown("</div>", unsafe_allow_html=True)
      
 
