@@ -142,7 +142,7 @@ elif section == "Healthcare Indicators":
 
     col_sanitation, col_nurishment = st.columns((5,5))
     with col_sanitation:
-        st.markdown("<h5 style='margin-bottom: -2.1rem;'>Water & Sanitation ODA vs Basic Sanitation Usage </h5>", unsafe_allow_html=True)
+        
         sanitation_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Water supply & sanitation')].groupby('Year').agg({
         'Sector_ODA_Millions': 'sum','Population_using_basic_sanitation%': 'mean'}).reset_index()
 
@@ -155,7 +155,7 @@ elif section == "Healthcare Indicators":
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_nurishment:
-        st.markdown("<h5 style='margin-bottom: -2.1rem;'>Basic Nutrition ODA vs Undernourishment</h5>", unsafe_allow_html=True)
+
         Nourishment_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Basic nutrition')].groupby('Year').agg({
         'Sector_ODA_Millions': 'sum','Undernourishment': 'mean'}).reset_index()
 
