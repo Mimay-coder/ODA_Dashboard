@@ -88,7 +88,7 @@ if section == "AID Landscape":
 # ------------------------------
 elif section == "Healthcare Indicators":
     st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns((5,5))
     with col1:
 
     st.markdown("<h5 style='margin-bottom: -2.1rem;'>Reproductive Health ODA vs Maternal Mortality</h5>", unsafe_allow_html=True)
