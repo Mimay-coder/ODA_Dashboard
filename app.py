@@ -197,6 +197,8 @@ elif section == "Education Indicators":
     with col_Primary:
         st.markdown("<h5 style='margin-bottom: -1.8rem;'>Primary Education ODA vs Primary Completion</h5>", unsafe_allow_html=True)
         primary_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Primary education')]
+        primary_data = primary_data[(primary_data['Sector_ODA_Millions'] != 0) & (primary_data['Primary_Completion'] != 0)].dropna()
+        primary_data = primary_data.dropna(subset=['Sector_ODA_Millions', 'Primary_Completion'])
         primary_data = primary_data.groupby('Year').agg({'Sector_ODA_Millions': 'sum','Primary_Completion': 'mean'}).reset_index()
         
         fig_primary = px.line(primary_data, x='Year', y='Sector_ODA_Millions', labels={'Sector_ODA_Millions': 'Primary Education ODA (Millions)'})
