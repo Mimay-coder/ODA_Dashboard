@@ -237,6 +237,7 @@ elif section == "Education Indicators":
         st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Male </h5>", unsafe_allow_html=True)
         male_data= Finaldf1[(Finaldf1['Country'] == country) & (Finaldf1['Year'].between(2000, 2019))]
         male_data = male_data.dropna(subset=['Out_of_Schcool_Male'])
+       
         
         fig_male = px.bar(male_data,x='Year',y='Out_of_School_Male',labels={'Out_of_School_Male': 'Number of Boys'},
         height=300,color_discrete_sequence=['#ff7f0e'])
