@@ -55,7 +55,7 @@ if section == "AID Landscape":
             projection="natural earth",
         )
         fig_map.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
-        fig_map.update_layout(height=300, margin=dict(t=10, b=0, l=10, r=10))
+        fig_map.update_layout(height=300, margin=dict(t=10, b=-2, l=10, r=10))
         st.plotly_chart(fig_map, use_container_width=True)
 
     with col_pie:
@@ -68,7 +68,7 @@ if section == "AID Landscape":
         sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
         fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
                          color_discrete_sequence=px.colors.sequential.Blues)
-        fig_pie.update_layout(height=200, margin=dict(t=4, b=0, l=4, r=4), legend=dict(orientation="v", y=0.5))
+        fig_pie.update_layout(height=200, margin=dict(t=4, b=-2, l=4, r=4), legend=dict(orientation="v", y=0.5))
         st.plotly_chart(fig_pie, use_container_width=True)
 
     
@@ -76,7 +76,7 @@ if section == "AID Landscape":
          st.markdown("<h5 style='margin-bottom: 0.3rem;'>Top Donors</h5>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
-         fig_donor.update_layout(height=250, margin=dict(t=0, b=0, l=3, r=3))
+         fig_donor.update_layout(height=250, margin=dict(t=-2, b=0, l=3, r=3))
          st.plotly_chart(fig_donor, use_container_width=True)
 
 
