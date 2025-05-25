@@ -159,9 +159,7 @@ elif section == "Healthcare Indicators":
         Nourishment_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Basic nutrition')
         ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','Undernourishment': 'mean'}).reset_index()
         
-        fig_Nourishment = px.line(Nourishment_data, x='Year',y='Sector_ODA_Millions',
-        labels={'Sector_ODA_Millions': 'Basic Nutrition ODA (Millions)'})
-
+        fig_Nourishment = px.line(Nourishment_data, x='Year',y='Sector_ODA_Millions',labels={'Sector_ODA_Millions': 'Basic Nutrition ODA (Millions)'})
         fig_Nourishment.add_scatter(x=Nourishment_data['Year'], y=Nourishment_data['Undernourishment'],name='Population Undernourished (%)',
         yaxis='y2')
         
