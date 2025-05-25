@@ -127,7 +127,7 @@ elif section == "Healthcare Indicators":
         
 
     with col2:
-        st.markdown("<h5 style='margin-bottom: -1.3rem;'>Malaria Control ODA vs Malaria Rate</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.9rem;'>Malaria Control ODA vs Malaria Rate</h5>", unsafe_allow_html=True)
         malaria_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Malaria control')
         ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','Malaria_RATE_PER_1000_N': 'mean'}).reset_index()
         fig_malaria = px.line(malaria_data, x='Year', y='Sector_ODA_Millions',
@@ -139,9 +139,9 @@ elif section == "Healthcare Indicators":
         fig_malaria.update_layout(height=270, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
         yaxis2=dict(title='Malaria Rate (per 1,000)', overlaying='y', side='right'))
 
-        yaxis2=dict(title='Malaria Rate (per 1,000)',overlaying='y',side='right',range=[0, malaria_data['Malaria_RATE_PER_1000_N'].max() * 5])
+        yaxis2=dict(title='Malaria Rate (per 1,000)',overlaying='y',side='right',range=[0, malaria_data['Malaria_RATE_PER_1000_N'].max() * 3])
         
-        yaxis=dict(title='Malaria Control ODA (Millions)',range=[0, malaria_data['Sector_ODA_Millions'].max() * 4])
+        yaxis=dict(title='Malaria Control ODA (Millions)',range=[0, malaria_data['Sector_ODA_Millions'].max() * 3])
         
         st.plotly_chart(fig_malaria, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
