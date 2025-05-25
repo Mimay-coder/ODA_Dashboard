@@ -71,7 +71,7 @@ if section == "AID Landscape":
         st.plotly_chart(fig_pie, use_container_width=True)
 
     col_donor, col_channel = st.columns((5,5))
-    with col_donor, st.container():
+    with col_donor:
          st.markdown("<h5 style='margin-bottom: -2.1rem;'>Top Donors</h5>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
