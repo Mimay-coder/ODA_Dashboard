@@ -154,7 +154,7 @@ elif section == "Healthcare Indicators":
 
         yaxis2=dict(title='Population using basic sanitation(%)',overlaying='y',side='right',range=[0, sanitation_data['Population_using_basic_sanitation%'].max() * 2]))
         
-        yaxis=dict(title=''Water & Sanitation ODA (Millions)',range=[0, sanitation_data['Sector_ODA_Millions'].max() * 2])
+        yaxis=dict(title='Water & Sanitation ODA (Millions)',range=[0, sanitation_data['Sector_ODA_Millions'].max() * 2])
 
 
         st.plotly_chart(fig_sanitation, use_container_width=True)
