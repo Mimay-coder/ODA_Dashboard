@@ -227,7 +227,7 @@ elif section == "Education Indicators":
         
         yaxis=dict(title='Total Basic Education ODA (Millions)',range=[0, Enroll_data['Sector_ODA_Millions'].max() * 3])
         
-        st.plotly_chart(fig_malaria, use_container_width=True)
+        st.plotly_chart(fig_Enroll, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
 
