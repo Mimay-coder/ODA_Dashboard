@@ -43,7 +43,7 @@ if section == "AID Landscape":
 
     col_map, col_pie = st.columns((5,5))
     with col_map:
-        st.markdown("ODA per Capita by Country")
+        st.markdown("<h5 style='margin-bottom: -2.5rem;'>ODA per Capita by Country Donors</h5>", unsafe_allow_html=True)
         fig_map = px.choropleth(
             map_data,
             locations="Country",
@@ -60,7 +60,7 @@ if section == "AID Landscape":
         st.plotly_chart(fig_map, use_container_width=True)
 
     with col_pie:
-        st.markdown("ODA by Sector")
+        st.markdown("<h5 style='margin-bottom: -2.5rem;'>ODA by Sector</h5>", unsafe_allow_html=True)
         selected_sectors = ['Agriculture, forestry, fishing', 'Education', 'Health','Water supply & sanitation',
                             'Government and civil society']
         sector_data = Finaldf[(Finaldf['Year'] == year) & Finaldf['Sector'].isin(selected_sectors)]
@@ -72,14 +72,14 @@ if section == "AID Landscape":
 
     col_donor, col_channel = st.columns((6,5))
     with col_donor:
-         st.markdown("<h5 style='margin-bottom: -2.5rem;'>Top Donors</h5>", unsafe_allow_html=True)
+         st.markdown("<h5 style='margin-bottom: -2.2rem;'>Top Donors</h5>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
          fig_donor.update_layout(height=250, margin=dict(t=0, b=0, l=3, r=3))
          st.plotly_chart(fig_donor, use_container_width=True)
     
     with col_channel:
-        st.markdown("<h5 style='margin-bottom: -2.5rem;'>ODA by Channel</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -2.2rem;'>ODA by Channel</h5>", unsafe_allow_html=True)
         # Filter data for the selected year and non-null channel
         sector_filtered2 = Finaldf[
         (Finaldf['Year'] == year) &
