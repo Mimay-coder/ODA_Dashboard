@@ -175,7 +175,7 @@ elif section == "Healthcare Indicators":
         st.plotly_chart(fig_sanitation, use_container_width=True)
 
     # End of section
-        st.markdown('</div>', unsafe_allow_html=True
+        st.markdown('</div>', unsafe_allow_html=True)
      
 
 # ------------------------------
