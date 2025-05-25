@@ -235,8 +235,7 @@ elif section == "Education Indicators":
     col_male, col_female = st.columns((5,5))
     with col_male:
         st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Male </h5>", unsafe_allow_html=True)
-        st.write(Finaldf1.columns)
-        school_df = Finaldf1[(Finaldf1['Country'] == selected_country) &(Finaldf1['Year'].between(2000, 2019))]
+        school_df = Finaldf1[(Finaldf1['Country'] == country) &(Finaldf1['Year'].between(2000, 2019))]
         school_df = school_df.dropna(subset=['Out_of_Schcool_Male'])
         
         fig_male = px.bar(school_df,x='Year',y='Out_of_School_Male',labels={'Out_of_School_Male': 'Number of Boys'},
@@ -246,7 +245,7 @@ elif section == "Education Indicators":
         
     with col_female:
         st.markdown("<h5 style='margin-bottom: -1.4rem;'>Out of School -Female </h5>", unsafe_allow_html=True)
-        school_df1 = Finaldf1[(Finaldf1['Country'] == selected_country) &(Finaldf1['Year'].between(2000, 2019))]
+        school_df1 = Finaldf1[(Finaldf1['Country'] == country) &(Finaldf1['Year'].between(2000, 2019))]
         school_df1 = school_df.dropna(subset=['Out_of_School_Female'])
         
         fig_female = px.bar(school_df1,x='Year',y='Out_of_School_Female',labels={'Out_of_School_Female': 'Number of Girls'},
