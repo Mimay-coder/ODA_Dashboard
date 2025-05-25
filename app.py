@@ -40,7 +40,7 @@ if section == "AID Landscape":
 
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
 
-    col_map, col_pie = st.columns((6, 4))
+    col_map, col_pie = st.columns((5.5, 4.5))
     with col_map:
         st.markdown("ODA per Capita by Country")
         fig_map = px.choropleth(
@@ -73,7 +73,7 @@ if section == "AID Landscape":
 
     
     with st.container():
-         st.markdown("<div style='margin-top: -5rem; margin-bottom: -3rem;'>Top Donors</div>", unsafe_allow_html=True)
+         st.markdown("<h4 style='margin-bottom: 0.3rem;'>Top Donors</h4>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
          fig_donor.update_layout(height=250, margin=dict(t=0, b=3, l=3, r=3))
