@@ -68,7 +68,7 @@ if section == "AID Landscape":
         sector_sum = sector_data.groupby('Sector')['Sector_ODA_Millions'].sum()
         fig_pie = px.pie(sector_sum, values=sector_sum.values, names=sector_sum.index,
                          title=f"ODA by Sector in {year}", color_discrete_sequence=px.colors.sequential.Blues)
-        fig_pie.update_layout(height=400, margin=dict(t=5, b=30, l=5, r=5), legend=dict(orientation="v", y=-0.8))
+        fig_pie.update_layout(height=400, margin=dict(t=5, b=30, l=5, r=5), legend=dict(orientation="v"))
         st.plotly_chart(fig_pie, use_container_width=True)
 
     st.markdown("---")
