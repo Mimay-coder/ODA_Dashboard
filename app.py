@@ -8,18 +8,15 @@ Finaldf = pd.read_csv("Finaldf.csv")
 # Page configuration
 st.set_page_config(layout='wide', page_title="ODA Dashboard", initial_sidebar_state='expanded')
 
-# Load custom style (if available)
-try:
-    with open("style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-except FileNotFoundError:
-    pass
+with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Sidebar
-st.sidebar.header("📊 West Africa ODA Dashboard (2000–2020)")
+st.sidebar.header("West Africa ODA Dashboard (2000–2020)")
 st.sidebar.markdown("---")
 section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
-
+st.markdown("---")
+year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
 st.markdown("<style> .block-container {padding-top: 1rem; padding-bottom: 1rem; padding-left: 1rem; padding-right: 1rem;} </style>", unsafe_allow_html=True)
 
 # ------------------------------
@@ -39,7 +36,7 @@ if section == "AID Landscape":
     col4.metric("🏛️ Top Sector", top_sector)
 
     st.markdown("---")
-    year = st.slider("Select Year", 2000, 2020, 2019, key='aid_year')
+ 
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
 
     col_map, col_donor = st.columns((7, 3))
