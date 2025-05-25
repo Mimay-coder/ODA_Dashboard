@@ -117,7 +117,7 @@ elif section == "Healthcare Indicators":
         fig_health.add_scatter(x=healthcare_data['Year'], y=healthcare_data['Maternal_Mortality'],
                            name='Maternal Mortality', yaxis='y2')
         fig_health.update_layout(
-        yaxis2=dict(title='Maternal Mortality per 1000', overlaying='y', side='right', range=[0, healthcare_data['Maternal_Mortality'].max() * 3),
+        yaxis2=dict(title='Maternal Mortality per 1000', overlaying='y', side='right', range=[0, healthcare_data['Maternal_Mortality'].max() * 3]),
         height=250, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2))
  
         yaxis=dict(title='Reproductive ODA (Millions)',range=[0, healthcare_data['Sector_ODA_Millions'].max() * 3])
