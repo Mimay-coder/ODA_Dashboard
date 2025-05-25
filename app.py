@@ -138,6 +138,22 @@ elif section == "Healthcare Indicators":
         st.plotly_chart(fig_malaria, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
+ with col2:
+        st.markdown("<h5 style='margin-bottom: -2.1rem;'>Water & Sanitation ODA vs Population using basic sanitation</h5>", unsafe_allow_html=True)
+        sanitation_data = Finaldf[(Finaldf['Country'] == country) &(Finaldf['Sector'] == 'Water supply & sanitation')
+        ].groupby('Year').agg({'Sector_ODA_Millions': 'sum','Population_using_basic_sanitation%': 'mean'}).reset_index()
+        fig_sanitation = px.line(sanitation_data, x='Year', y='Sector_ODA_Millions',
+                          labels={'Sector_ODA_Millions': 'ODA (Millions)'})
+        fig_sanitation.add_scatter(x=sanitation_data['Year'],
+                            y=sanitation_data['Population_using_basic_sanitation%'],
+                            name='Population using basic sanitation(%)',
+                            yaxis='y2')
+        fig_sanitation.update_layout(height=250, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
+        yaxis2=dict(title='Population using basic sanitation(%)', overlaying='y', side='right')
+                                 )
+        st.plotly_chart(fig_sanitation, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
 # ------------------------------
 # EDUCATION INDICATORS TAB
 # ------------------------------
