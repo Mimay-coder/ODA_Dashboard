@@ -17,6 +17,7 @@ st.sidebar.markdown("---")
 section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
 
 year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
+country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
 
 # ------------------------------
 # AID LANDSCAPE TAB (Start)
@@ -88,8 +89,7 @@ if section == "AID Landscape":
 elif section == "Healthcare Indicators":
     st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
 
-    st.subheader("💉 Maternal Mortality and Health ODA")
-    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
+    st.markdown("<h5 style='margin-bottom: -2.1rem;'>Reproductive Health ODA vs Maternal Mortality</h5>", unsafe_allow_html=True)
     healthcare_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Reproductive health care')]
     healthcare_data = healthcare_data.groupby('Year').agg({
         'Sector_ODA_Millions': 'sum',
