@@ -73,7 +73,7 @@ if section == "AID Landscape":
 
     
     with st.container():
-         st.markdown("<h5 style='margin-bottom: -3.0rem;'>Top Donors</h5>", unsafe_allow_html=True)
+         st.markdown("<h5 style='margin-bottom: -2.5rem;'>Top Donors</h5>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
          fig_donor.update_layout(height=220, margin=dict(t=0, b=0, l=3, r=3))
