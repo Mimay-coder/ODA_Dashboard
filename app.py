@@ -164,11 +164,10 @@ elif section == "Healthcare Indicators":
         
         fig_Nourishment.add_scatter( x=Nourishment_data['Year'], y=Nourishment_data['Undernourishment'],
         name='Population Undernourished (%)',yaxis='y2')
-        fig_Nourishment.update_layout(height=270,margin=dict(t=0, b=10, l=0, r=0),legend=dict(
-        orientation="h",y=-0.3,font=dict(size=12, family='Arial Black')  # Bold legend text),
+        fig_Nourishment.update_layout(height=270,margin=dict(t=0, b=10, l=0, r=0),legend=dict(orientation="h",y=-0.3,font=dict(size=12, family='Arial Black'),
         font=dict(size=12, family='Arial Black'), yaxis=dict(title='Basic Nutrition ODA (Millions)',
         range=[0, Nourishment_data['Sector_ODA_Millions'].max() * 1.2],titlefont=dict(size=15, family='Arial Black'),
-        tickfont=dict(size=12, family='Arial Black')),
+        tickfont=dict(size=12, family='Arial Black'),
             
         yaxis2=dict(title='Undernourishment (%)',overlaying='y',side='right',range=[0, Nourishment_data['Undernourishment'].max() * 3],
         titlefont=dict(size=15, family='Arial Black'),tickfont=dict(size=12, family='Arial Black')),
