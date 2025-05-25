@@ -40,7 +40,7 @@ if section == "AID Landscape":
 
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
 
-    col_map, col_pie = st.columns((6, 4))
+    col_map, col_pie = st.columns((5, 5))
     with col_map:
         st.markdown("ODA per Capita by Country")
         fig_map = px.choropleth(
