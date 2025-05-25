@@ -71,9 +71,10 @@ if section == "AID Landscape":
         fig_pie.update_layout(height=400, margin=dict(t=5, b=30, l=5, r=5), legend=dict(orientation="v"))
         st.plotly_chart(fig_pie, use_container_width=True)
 
-    st.markdown("---")
-
+    
+    st.markdown("<div style='margin-top: -1.5rem;'></div>", unsafe_allow_html=True)
     st.markdown("Top Donors")
+    
     donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
     fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions', title=f"Top 10 Donors in {year}")
     fig_donor.update_layout(height=400, margin=dict(t=2, b=2, l=2, r=2))
