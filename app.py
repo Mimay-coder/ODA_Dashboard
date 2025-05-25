@@ -223,7 +223,7 @@ elif section == "Education Indicators":
                             name='Total School Enrollment %',
                             yaxis='y2')
         fig_Enroll.update_layout(height=270, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
-        yaxis2=dict(title='Total School Enrollment%'',overlaying='y',side='right',range=[0,100]))
+        yaxis2=dict(title='Total School Enrollment%',overlaying='y',side='right',range=[0,100]))
         
         yaxis=dict(title='Total Basic Education ODA (Millions)',range=[0, Enroll_data['Sector_ODA_Millions'].max() * 3])
         
