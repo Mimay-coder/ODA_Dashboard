@@ -117,10 +117,14 @@ elif section == "Healthcare Indicators":
         fig_health.add_scatter(x=healthcare_data['Year'], y=healthcare_data['Maternal_Mortality'],
                            name='Maternal Mortality', yaxis='y2')
         fig_health.update_layout(
-        yaxis2=dict(title='Maternal Mortality', overlaying='y', side='right'),
-        height=250, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2)
-        )
+        yaxis2=dict(title='Maternal Mortality per 1000', overlaying='y', side='right', range=[0, healthcare_data['Maternal_Mortality'].max() * 3),
+        height=250, margin=dict(t=0, b=0, l=0, r=3),legend=dict(orientation="h", y=-0.2))
+ 
+        yaxis=dict(title='Reproductive ODA (Millions)',range=[0, healthcare_data['Sector_ODA_Millions'].max() * 3])
+        
         st.plotly_chart(fig_health, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
 
     with col2:
         st.markdown("<h5 style='margin-bottom: -1.9rem;'>Malaria Control ODA vs Malaria Rate</h5>", unsafe_allow_html=True)
@@ -132,12 +136,12 @@ elif section == "Healthcare Indicators":
                             y=malaria_data['Malaria_RATE_PER_1000_N'],
                             name='Malaria Rate (per 1,000)',
                             yaxis='y2')
-        fig_malaria.update_layout(height=250, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
+        fig_malaria.update_layout(height=270, margin=dict(t=0, b=0, l=0, r=10),legend=dict(orientation="h", y=-0.2),
         yaxis2=dict(title='Malaria Rate (per 1,000)', overlaying='y', side='right'))
 
-        yaxis2=dict(title='Malaria Rate (per 1,000)',overlaying='y',side='right',range=[0, malaria_data['Malaria_RATE_PER_1000_N'].max() * 2])
+        yaxis2=dict(title='Malaria Rate (per 1,000)',overlaying='y',side='right',range=[0, malaria_data['Malaria_RATE_PER_1000_N'].max() * 3])
         
-        yaxis=dict(title='Malaria Control ODA (Millions)',range=[0, malaria_data['Sector_ODA_Millions'].max() * 2])
+        yaxis=dict(title='Malaria Control ODA (Millions)',range=[0, malaria_data['Sector_ODA_Millions'].max() * 3])
         
         st.plotly_chart(fig_malaria, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
