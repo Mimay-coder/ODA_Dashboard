@@ -155,14 +155,15 @@ elif section == "Healthcare Indicators":
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_nurishment:
+        st.markdown("<h5 style='margin-bottom: -2.1rem;'>Basic Nutrition ODA vs Undernourishment</h5>", unsafe_allow_html=True)
         Nourishment_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Basic nutrition')].groupby('Year').agg({
         'Sector_ODA_Millions': 'sum','Undernourishment': 'mean'}).reset_index()
 
-        fig_Nourishment = px.line(Nourishment_data,x='Year',y='Sector_ODA_Millions',labels={'Sector_ODA_Millions': 'ODA (Millions)'})
+        fig_Nourishment = px.line(Nourishment_data,x='Year',y='Sector_ODA_Millions',labels={'Sector_ODA_Millions': 'Basic Nutrition ODA (Millions)'})
         fig_Nourishment.add_scatter(x=Nourishment_data['Year'], y=Nourishment_data['Undernourishment'],name='Population Undernourished(%)',
         yaxis='y2')
         fig_Nourishment.update_layout(height=250, margin=dict(t=0, b=10, l=0, r=0),legend=dict(orientation="h", y=-0.3),
-        yaxis2=dict(title='Basic Nutrition ODA',overlaying='y',side='right'))
+        yaxis2=dict(title='Undernourishment',overlaying='y',side='right'))
         st.plotly_chart(fig_Nourishment, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
      
