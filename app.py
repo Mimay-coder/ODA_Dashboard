@@ -43,7 +43,7 @@ if section == "AID Landscape":
 
     col_map, col_pie = st.columns((5,5))
     with col_map:
-        st.markdown("<h5 style='margin-bottom: -2.1rem;'>ODA per Capita by Country Donors</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.5rem;'>ODA per Capita by Country Donors</h5>", unsafe_allow_html=True)
         fig_map = px.choropleth(
             map_data,
             locations="Country",
@@ -60,7 +60,7 @@ if section == "AID Landscape":
         st.plotly_chart(fig_map, use_container_width=True)
 
     with col_pie:
-        st.markdown("<h5 style='margin-bottom: -2.5rem;'>ODA by Sector</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.5rem;'>ODA by Sector</h5>", unsafe_allow_html=True)
         selected_sectors = ['Agriculture, forestry, fishing', 'Education', 'Health','Water supply & sanitation',
                             'Government and civil society']
         sector_data = Finaldf[(Finaldf['Year'] == year) & Finaldf['Sector'].isin(selected_sectors)]
@@ -75,7 +75,7 @@ if section == "AID Landscape":
          st.markdown("<h5 style='margin-bottom: -2.2rem;'>Top Donors</h5>", unsafe_allow_html=True)
          donor_data = map_data.groupby('Donor')['Sector_ODA_Millions'].sum().nlargest(10).reset_index()
          fig_donor = px.bar(donor_data, x='Donor', y='Sector_ODA_Millions')
-         fig_donor.update_layout(height=250, margin=dict(t=0, b=0, l=3, r=3))
+         fig_donor.update_layout(height=250, margin=dict(t=0, b=0, l=3, r=5))
          st.plotly_chart(fig_donor, use_container_width=True)
     
     with col_channel:
@@ -93,7 +93,7 @@ if section == "AID Landscape":
                                  color_discrete_sequence=["#08306B", "#08519C", "#2171B5", "#4292C6", "#6BAED6",
                                                                               "#9ECAE1", "#C6DBEF", "#DEEBF7"])
             fig_channel.update_traces(texttemplate='%{percent:.1%}')
-            fig_channel.update_layout(height=250,margin=dict(t=0, b=5, l=2, r=0),legend=dict(orientation="v", y=0.5))
+            fig_channel.update_layout(height=250,margin=dict(t=0, b=5, l=5, r=0),legend=dict(orientation="v", y=0.5))
             st.plotly_chart(fig_channel, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
