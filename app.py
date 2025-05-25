@@ -191,10 +191,9 @@ elif section == "Healthcare Indicators":
 # EDUCATION INDICATORS TAB
 # ------------------------------
 elif section == "Education Indicators":
-
-        st.markdown('<div class="education-section">', unsafe_allow_html=True)
-        country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
-        col_Primary, col_Enrollment = st.columns((5,5))
+    st.markdown('<div class="education-section">', unsafe_allow_html=True)
+    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key='health_country')
+    col_Primary, col_Enrollment = st.columns((5,5))
     with col_Primary:
         st.markdown("<h5 style='margin-bottom: -1.8rem;'>Primary Education ODA vs Primary Completion</h5>", unsafe_allow_html=True)
         primary_data = Finaldf[(Finaldf['Country'] == country) & (Finaldf['Sector'] == 'Primary education')]
