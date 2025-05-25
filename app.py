@@ -163,9 +163,10 @@ elif section == "Healthcare Indicators":
         fig_Nourishment.add_scatter(x=Nourishment_data['Year'], y=Nourishment_data['Undernourishment'],name='Population Undernourished(%)',
         yaxis='y2')
         fig_Nourishment.update_layout(height=250, margin=dict(t=0, b=10, l=0, r=0),legend=dict(orientation="h", y=-0.3),
-        yaxis2=dict(title='Undernourishment',overlaying='y',side='right',range=[0, Nourishment_data['Undernourishment'].max() * 1.2], 
-        titlefont=dict(size=9),tickfont=dict(size=9)))
-        
+        yaxis2=dict(title='Undernourishment',overlaying='y',side='right',range=[0, Nourishment_data['Undernourishment'].max() * 2], 
+        titlefont=dict(size=9,family='Arial Black'),tickfont=dict(size=9, family='Arial Black')))
+
+
         st.plotly_chart(fig_Nourishment, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
      
