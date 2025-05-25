@@ -84,6 +84,11 @@ header {visibility: hidden;}
   padding: 1em;
 }
 
+/* Reduce space between stacked chart rows in aid section */
+.aid-landscape-section .element-container + .element-container {
+  margin-top: -1rem;
+}
+
 .education-section {
   margin-top: -1em;
   margin-bottom: 2em;
