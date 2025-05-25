@@ -1,12 +1,12 @@
+
 /* Card styling for metrics and containers */
 div.css-1r6slb0.e1tzin5v2 {
   background-color: #FFFFFF;
   border: 1px solid #CCCCCC;
-  padding: 5% 5% 5% 10%;
+  padding: 3% 3% 3% 3%;
   border-radius: 5px;
   border-left: 0.5rem solid #9AD8E1 !important;
   box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
-    
 }
 
 /* Label styles (e.g., radio buttons, sliders) */
@@ -16,23 +16,32 @@ label.css-mkogse.e16fv1kl2 {
   text-transform: uppercase !important;
 }
 
-/* Move main block container higher to reduce top margin */
-div.block-container.css-18e3th9.egzxvld2 {
-  margin-top: -5em;
+/* Reduce top space on main content */
+div.block-container {
+  padding-top: 0.0rem !important;
+  margin-top: -3em !important;
 }
 
-/* Hide top hamburger menu */
+/* Sidebar spacing and appearance */
+.css-1d391kg, .css-1lcbmhc {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+}
+
+/* Hide hamburger menu */
 div.css-r698ls.e8zbici2 {
   display: none;
 }
 
-/* Hide both footers */
+/* Hide footers */
 footer.css-ipbk5a.egzxvld4,
 footer.css-12gp8ed.eknhn3m4 {
   display: none;
 }
 
-/* Hide Vega tooltip if used */
+/* Hide Vega tooltip */
 div.vg-tooltip-element {
   display: none;
 }
