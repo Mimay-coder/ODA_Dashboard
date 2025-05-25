@@ -138,9 +138,9 @@ elif section == "Healthcare Indicators":
         st.plotly_chart(fig_malaria, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("<h5 style='margin-top: 1rem; margin-bottom: -0.5rem;'>Water & Sanitation ODA vs Population using Basic Sanitation</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-top: 1rem; margin-bottom: -0.5rem;'>Water & Sanitation ODA vs Population using Basic Sanitation</h5>", unsafe_allow_html=True)
 
-    left, center, right = st.columns([1, 6, 1])
+        left, center, right = st.columns([1, 6, 1])
     with center:
         sanitation_data = Finaldf[
             (Finaldf['Country'] == country) &
@@ -175,7 +175,7 @@ st.markdown("<h5 style='margin-top: 1rem; margin-bottom: -0.5rem;'>Water & Sanit
         st.plotly_chart(fig_sanitation, use_container_width=True)
 
     # End of section
-    st.markdown('</div>', unsafe_allow_html=True
+        st.markdown('</div>', unsafe_allow_html=True
      
 
 # ------------------------------
