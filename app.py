@@ -28,15 +28,16 @@ if section == "AID Landscape":
     top_country = Finaldf.groupby('Country')['oda_per_capita_usd'].mean().idxmax()
     top_sector = Finaldf.groupby('Sector')['Sector_ODA_Millions'].sum().idxmax()
 
-    st.markdown("### 💡 Summary Statistics")
+    st.markdown("## 💡 Summary Statistics")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("💰 Total ODA", f"${total_oda/1e3:.1f}B")
-    col2.metric("🌍 Top Donor", top_donor)
-    col3.metric("📈 Highest ODA per Capita", top_country)
-    col4.metric("🏛️ Top Sector", top_sector)
+    col1.metric("Total ODA", f"${total_oda/1e3:.1f}B")
+    col2.metric("Top Donor", top_donor)
+    col3.metric("Highest ODA per Capita", top_country)
+    col4.metric("Top Sector", top_sector)
 
     st.markdown("---")
- 
+
+    
     map_data = Finaldf[(Finaldf['Year'] == year) & (Finaldf['Sector'] == 'All sectors')]
 
     col_map, col_donor = st.columns((7, 3))
