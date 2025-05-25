@@ -287,19 +287,18 @@ elif section == "Corruption Indicators":
         (Finaldf['Year'].isin([2000, 2020]))
         ]
         if df_sector['Year'].nunique() < 2:ratio = np.nan
-            else:
-                val_2000 = df_sector[df_sector['Year'] == 2000][indicator].mean()
-                val_2020 = df_sector[df_sector['Year'] == 2020][indicator].mean()
-                oda_2000 = df_sector[df_sector['Year'] == 2000]['Sector_ODA_Millions'].sum()
-                oda_2020 = df_sector[df_sector['Year'] == 2020]['Sector_ODA_Millions'].sum()
-                
-                delta_val = val_2020 - val_2000
-                delta_oda = oda_2020 - oda_2000
-                ratio = np.nan if delta_oda == 0 else round(delta_val / delta_oda, 4)
-                
-                results.append({"Sector": sector,
-                                "Indicator": indicator,
-                                "Aid Effectiveness Ratio": ratio
+else:
+    val_2000 = df_sector[df_sector['Year'] == 2000][indicator].mean()
+    val_2020 = df_sector[df_sector['Year'] == 2020][indicator].mean()
+    oda_2000 = df_sector[df_sector['Year'] == 2000]['Sector_ODA_Millions'].sum()
+    oda_2020 = df_sector[df_sector['Year'] == 2020]['Sector_ODA_Millions'].sum()
+    
+    delta_val = val_2020 - val_2000
+    delta_oda = oda_2020 - oda_2000
+    ratio = np.nan if delta_oda == 0 else round(delta_val / delta_oda, 4)
+    results.append({"Sector": sector,
+                    "Indicator": indicator,
+                    "Aid Effectiveness Ratio": ratio
                                })
 
 # ⬇️ Outside the loop — generate the heatmap only once after data is ready
