@@ -251,7 +251,7 @@ elif section == "Education Indicators":
         fig_female = px.bar(school_df1,x='Year',y='Out_of_School_Female',labels={'Out_of_School_Female': 'Number of Girls'},
         height=300,color_discrete_sequence=['#ff7f0e'])
         fig_female.update_layout(margin=dict(t=20, b=30, l=40, r=10))
-        st.plotly_chart(fig_female, use_container_width=True)
+        st.plotly_chart(fig_female, use_container_width=True) 
 
 
 
