@@ -258,11 +258,18 @@ elif section == "Education Indicators":
         st.plotly_chart(fig_female, use_container_width=True) 
         st.markdown('</div>', unsafe_allow_html=True)
 
+
+# Page config
+st.set_page_config(layout="wide")
+with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 # ------------------------------
 # AID EFFECTIVENESS RATIOS TAB
 # ------------------------------
 elif section == "Aid Effectiveness Ratios": 
-    st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
+    st.markdown('<div class="Aid_Effectiveness-section">', unsafe_allow_html=True)
+    
     st.markdown("### 🧮 Aid Effectiveness Ratios (2005–2019)")
     indicator_options = {
     "Maternal Mortality (↓)": {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
