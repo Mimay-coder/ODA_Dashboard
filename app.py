@@ -261,79 +261,76 @@ elif section == "Education Indicators":
 # ------------------------------
 # AID EFFECTIVENESS RATIOS TAB
 # ------------------------------
-elif section == "Aid Effectivness Ratios":
+elif section == "Aid Effectiveness Ratios": 
     st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
-    st.markdown("### 🌍 Top Countries by Aid Effectiveness Ratio (2005–2019)")
+    st.markdown("### 🧮 Aid Effectiveness Ratios (2005–2019)")
 
+    # Define effectiveness indicators
+    effectiveness_metrics = [
+        {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
+        {"sector": "Education", "indicator": "Total_Literacy", "better": "higher"},
+        {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
+        {"sector": "Malaria control", "indicator": "Malaria_RATE_PER_1000_N", "better": "lower"},
+        {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
+        {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
+        {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"},
+    ]
 
-# Define all indicators and whether higher/lower values are better
-effectiveness_metrics = [
-    {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
-    {"sector": "Education", "indicator": "Total_Literacy", "better": "higher"},
-    {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
-    {"sector": "Malaria control", "indicator": "Malaria_RATE_PER_1000_N", "better": "lower"},
-    {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
-    {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
-    {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"},
-]
+    title_map = {
+        "Maternal_Mortality": "Maternal Mortality",
+        "Total_Literacy": "Literacy Rate",
+        "Primary_Completion": "Primary Completion",
+        "Malaria_RATE_PER_1000_N": "Malaria Rate",
+        "Undernourishment": "Undernourishment",
+        "Population_using_basic_sanitation%": "Basic Sanitation Use",
+        "School_Enroll_GPI": "School Enrolment GPI"
+    }
 
-# Friendly labels
-title_map = {
-    "Maternal_Mortality": "Maternal Mortality",
-    "Total_Literacy": "Literacy Rate",
-    "Primary_Completion": "Primary Completion",
-    "Malaria_RATE_PER_1000_N": "Malaria Rate",
-    "Undernourishment": "Undernourishment",
-    "Population_using_basic_sanitation%": "Basic Sanitation Use",
-    "School_Enroll_GPI": "School Enrolment GPI"
-}
+    for metric in effectiveness_metrics:
+        sector = metric["sector"]
+        indicator = metric["indicator"]
+        better = metric["better"]
 
-# Display all cards vertically
-for metric in effectiveness_metrics:
-    sector = metric["sector"]
-    indicator = metric["indicator"]
-    better = metric["better"]
+        df_filtered = Finaldf[
+            (Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))
+        ].copy()
 
-    df_filtered = Finaldf[
-        (Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))
-    ].copy()
+        top_country = worst_country = "No valid data"
 
-    top_country = worst_country = "No valid data"
+        if not df_filtered.empty:
+            results = []
 
-    if not df_filtered.empty:
-        results = []
+            for country in df_filtered['Country'].unique():
+                df_country = df_filtered[df_filtered['Country'] == country]
+                if df_country['Year'].nunique() < 2:
+                    continue
 
-        for country in df_filtered['Country'].unique():
-            df_country = df_filtered[df_filtered['Country'] == country]
-            if df_country['Year'].nunique() < 2:
-                continue
+                val_2005 = df_country[df_country['Year'] == 2005][indicator].mean()
+                val_2019 = df_country[df_country['Year'] == 2019][indicator].mean()
+                oda_2005 = df_country[df_country['Year'] == 2005]['Sector_ODA_Millions'].sum()
+                oda_2019 = df_country[df_country['Year'] == 2019]['Sector_ODA_Millions'].sum()
 
-            val_2005 = df_country[df_country['Year'] == 2005][indicator].mean()
-            val_2019 = df_country[df_country['Year'] == 2019][indicator].mean()
-            oda_2005 = df_country[df_country['Year'] == 2005]['Sector_ODA_Millions'].sum()
-            oda_2019 = df_country[df_country['Year'] == 2019]['Sector_ODA_Millions'].sum()
+                if pd.isna(val_2005) or pd.isna(val_2019) or pd.isna(oda_2005) or pd.isna(oda_2019):
+                    continue
 
-            if pd.isna(val_2005) or pd.isna(val_2019) or pd.isna(oda_2005) or pd.isna(oda_2019):
-                continue
+                delta_val = val_2019 - val_2005
+                delta_oda = oda_2019 - oda_2005
 
-            delta_val = val_2019 - val_2005
-            delta_oda = oda_2019 - oda_2005
+                if delta_oda == 0:
+                    continue
 
-            if delta_oda == 0:
-                continue
+                aer = delta_val / delta_oda
+                results.append((country, round(aer, 4)))
 
-            aer = delta_val / delta_oda
-            results.append((country, round(aer, 4)))
+            if results:
+                sorted_results = sorted(results, key=lambda x: x[1], reverse=(better == "higher"))
+                top_country = f"{sorted_results[0][0]} (AER: {sorted_results[0][1]})"
+                worst_country = f"{sorted_results[-1][0]} (AER: {sorted_results[-1][1]})"
 
-        if results:
-            sorted_results = sorted(results, key=lambda x: x[1], reverse=(better == "higher"))
-            top_country = f"{sorted_results[0][0]} (AER: {sorted_results[0][1]})"
-            worst_country = f"{sorted_results[-1][0]} (AER: {sorted_results[-1][1]})"
+        st.metric(
+            label=f"{title_map[indicator]}",
+            value=f"Top: {top_country}",
+            delta=f"Worst: {worst_country}"
+        )
 
-    # Display one card vertically
-    st.metric(
-        label=f"{title_map[indicator]}",
-        value=f"Top: {top_country}",
-        delta=f"Worst: {worst_country}"
-    )
-       
+    st.markdown('</div>', unsafe_allow_html=True)
