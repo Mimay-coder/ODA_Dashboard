@@ -35,10 +35,10 @@ if section == "AID Landscape":
 
     #st.markdown("Summary Statistics")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total ODA", f"${total_oda/1e3:.1f}B")
-    col2.metric("Top Donor", top_donor)
-    col3.metric("Highest ODA per Capita", top_country)
-    col4.metric("Top Sector", top_sector)
+    col1.metric("Total ODA (2000-2020)", f"${total_oda/1e3:.1f}B")
+    col2.metric("Top Donor(2000-2020)", top_donor)
+    col3.metric("Highest ODA per Capita (2000-2020)", top_country)
+    col4.metric("Top Sector (2000-2020)", top_sector)
 
     st.markdown("<hr style='margin-top: 0rem; margin-bottom: 0.5rem;'>", unsafe_allow_html=True)
 
