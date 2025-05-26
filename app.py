@@ -259,10 +259,8 @@ elif section == "Education Indicators":
         st.markdown('</div>', unsafe_allow_html=True)
 
 
-# Page config
-st.set_page_config(layout="wide")
-with open("style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+
 
 # ------------------------------
 # AID EFFECTIVENESS RATIOS TAB
@@ -330,6 +328,10 @@ else:
     fig.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
     fig.update_layout(height=550, margin=dict(t=30, b=10, l=10, r=10))
     st.plotly_chart(fig, use_container_width=True)
+    
+    st.set_page_config(layout="wide")
+with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
