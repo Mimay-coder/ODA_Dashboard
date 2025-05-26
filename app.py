@@ -46,7 +46,7 @@ if section == "AID Landscape":
 
     col_map, col_pie = st.columns((5,5))
     with col_map:
-        st.markdown("<h5 style='margin-bottom: -1.5rem;'>ODA per Capita by Country Donors</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='margin-bottom: -1.5rem;'>ODA per Capita by Country</h5>", unsafe_allow_html=True)
         fig_map = px.choropleth(
             map_data,
             locations="Country",
