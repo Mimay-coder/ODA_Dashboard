@@ -1,3 +1,4 @@
 This dashboard Visualises ODA data for countries in West Africa 
 Countries included are Benin, Burkina Faso, Cape Verde, The Gambia, Ghana, Guinea, Guinea-Bissau, Ivory Coast, Liberia, Mali, Mauritania, Niger, Nigeria, Senegal, Sierra Leone, and Togo
-The dashboard was coded in Python and deployed into a live web app via Streamlit for better visual accesibility 
+The dashboard was coded in Python and deployed into a live web app via Streamlit for better visual accessibility 
+Time period 2000-2023 
