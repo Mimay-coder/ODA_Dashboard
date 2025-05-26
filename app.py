@@ -16,7 +16,7 @@ with open("style.css") as f:
 # Sidebar
 st.sidebar.header("West Africa ODA Dashboard (2000–2020)")
 st.sidebar.markdown("---")
-section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Corruption Indicators"])
+section = st.sidebar.radio("Navigation", ["AID Landscape", "Healthcare Indicators", "Education Indicators", "Aid Effectiveness Ratios"])
 
 year = st.sidebar.slider("Select Year", 2000, 2020, 2019, key='aid_year')
 
@@ -258,13 +258,15 @@ elif section == "Education Indicators":
         st.plotly_chart(fig_female, use_container_width=True) 
 
 
-# Final Section 
-
+# ------------------------------
+# AID EFFECTIVENESS RATIOS TAB
+# ------------------------------
 elif section == "Aid Effectivness Ratios":
     st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
     st.markdown("### 🌍 Top Countries by Aid Effectiveness Ratio (2005–2019)")
 
-# List of indicators with associated sector and whether a higher outcome is better
+
+# Define metrics and outcomes
 effectiveness_metrics = [
     {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
     {"sector": "Education", "indicator": "Total_Literacy", "better": "higher"},
@@ -272,7 +274,16 @@ effectiveness_metrics = [
     {"sector": "Malaria control", "indicator": "Malaria_RATE_PER_1000_N", "better": "lower"},
 ]
 
-cards = []
+# Friendly labels
+title_map = {
+    "Maternal_Mortality": "Maternal Mortality",
+    "Total_Literacy": "Literacy Rate",
+    "Primary_Completion": "Primary Completion",
+    "Malaria_RATE_PER_1000_N": "Malaria Rate"
+}
+
+# Prepare values for display
+card_values = []
 
 for metric in effectiveness_metrics:
     sector = metric["sector"]
@@ -301,7 +312,7 @@ for metric in effectiveness_metrics:
             delta_val = val_2019 - val_2005
             delta_oda = oda_2019 - oda_2005
 
-            if delta_oda == 0:
+            if delta_oda == 0 or pd.isna(delta_val) or pd.isna(delta_oda):
                 continue
 
             aer = delta_val / delta_oda
@@ -309,23 +320,16 @@ for metric in effectiveness_metrics:
 
         if results:
             sorted_results = sorted(results, key=lambda x: x[1], reverse=(better == "higher"))
-            top_country = sorted_results[0][0] + f" (AER: {sorted_results[0][1]})"
+            top_country = f"{sorted_results[0][0]} (AER: {sorted_results[0][1]})"
         else:
             top_country = "No valid data"
 
-    title_map = {
-        "Maternal_Mortality": "Maternal Mortality",
-        "Total_Literacy": "Literacy Rate",
-        "Primary_Completion": "Primary Completion",
-        "Malaria_RATE_PER_1000_N": "Malaria Rate"
-    }
+    # Add label + value for display
+    card_values.append((title_map[indicator], top_country))
 
-    cards.append(st.metric(label=title_map[indicator], value=top_country))
-
-# Display as a row
+# Display metrics in a row
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Maternal Mortality", cards[0].label, cards[0].value)
-col2.metric("Literacy Rate", cards[1].label, cards[1].value)
-col3.metric("Primary Completion", cards[2].label, cards[2].value)
-col4.metric("Malaria Rate", cards[3].label, cards[3].value)
-
+col1.metric(label=card_values[0][0], value=card_values[0][1])
+col2.metric(label=card_values[1][0], value=card_values[1][1])
+col3.metric(label=card_values[2][0], value=card_values[2][1])
+col4.metric(label=card_values[3][0], value=card_values[3][1])
