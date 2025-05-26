@@ -264,72 +264,70 @@ elif section == "Education Indicators":
 # ------------------------------
 # CORRUPTION INDICATORS TAB
 # ------------------------------
+st.markdown("### 🌍 Top Countries by Aid Effectiveness Ratio (2005–2019)")
 
-elif section == "Corruption Indicators":
-    st.markdown('<div class="corruption-section">', unsafe_allow_html=True)
-    st.markdown("<h5 style='margin-bottom: 1.5rem;'>Aid Effectiveness Ratio Heatmap (2005–2019)</h5>", unsafe_allow_html=True)
-    
-    country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key="heatmap_country")
+# List of indicators with associated sector and whether a higher outcome is better
+effectiveness_metrics = [
+    {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
+    {"sector": "Education", "indicator": "Total_Literacy", "better": "higher"},
+    {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
+    {"sector": "Malaria control", "indicator": "Malaria_RATE_PER_1000_N", "better": "lower"},
+]
 
-    # Ensure year column is integer
-    Finaldf['Year'] = Finaldf['Year'].astype(int)
+cards = []
 
-    # Define sector-indicator pairs
-    sector_indicator_map = {
-        'Reproductive health care': 'Maternal_Mortality',
-        'Malaria control': 'Malaria_RATE_PER_1000_N',
-        'Water supply & sanitation': 'Population_using_basic_sanitation%',
-        'Basic nutrition': 'Undernourishment',
-        'Primary education': 'Primary_Completion',
-        'Education': 'Total_Literacy'
-    }
+for metric in effectiveness_metrics:
+    sector = metric["sector"]
+    indicator = metric["indicator"]
+    better = metric["better"]
 
-    results = []
+    df_filtered = Finaldf[
+        (Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))
+    ].copy()
 
-    for sector, indicator in sector_indicator_map.items():
-        df_sector = Finaldf[
-            (Finaldf['Country'] == country) &
-            (Finaldf['Sector'] == sector) &
-            (Finaldf['Year'].isin([2005, 2019]))
-        ]
+    if df_filtered.empty:
+        top_country = "No data"
+    else:
+        results = []
 
-        if df_sector['Year'].nunique() < 2:
-            ratio = np.nan
-        else:
-            val_2005 = df_sector[df_sector['Year'] == 2005][indicator].mean()
-            val_2019 = df_sector[df_sector['Year'] == 2019][indicator].mean()
-            oda_2005 = df_sector[df_sector['Year'] == 2005]['Sector_ODA_Millions'].sum()
-            oda_2019 = df_sector[df_sector['Year'] == 2019]['Sector_ODA_Millions'].sum()
+        for country in df_filtered['Country'].unique():
+            df_country = df_filtered[df_filtered['Country'] == country]
+            if df_country['Year'].nunique() < 2:
+                continue
+
+            val_2005 = df_country[df_country['Year'] == 2005][indicator].mean()
+            val_2019 = df_country[df_country['Year'] == 2019][indicator].mean()
+            oda_2005 = df_country[df_country['Year'] == 2005]['Sector_ODA_Millions'].sum()
+            oda_2019 = df_country[df_country['Year'] == 2019]['Sector_ODA_Millions'].sum()
 
             delta_val = val_2019 - val_2005
             delta_oda = oda_2019 - oda_2005
 
-            ratio = np.nan if delta_oda == 0 else round(delta_val / delta_oda, 4)
+            if delta_oda == 0:
+                continue
 
-        results.append({
-            "Sector": sector,
-            "Indicator": indicator,
-            "Aid Effectiveness Ratio": ratio
-        })
+            aer = delta_val / delta_oda
+            results.append((country, round(aer, 4)))
 
-    heatmap_df = pd.DataFrame(results)
+        if results:
+            sorted_results = sorted(results, key=lambda x: x[1], reverse=(better == "higher"))
+            top_country = sorted_results[0][0] + f" (AER: {sorted_results[0][1]})"
+        else:
+            top_country = "No valid data"
 
-    # Pivot for heatmap
-    pivot_df = heatmap_df.pivot(index="Indicator", columns="Sector", values="Aid Effectiveness Ratio")
+    title_map = {
+        "Maternal_Mortality": "Maternal Mortality",
+        "Total_Literacy": "Literacy Rate",
+        "Primary_Completion": "Primary Completion",
+        "Malaria_RATE_PER_1000_N": "Malaria Rate"
+    }
 
-    # Plot heatmap
-    fig = px.imshow(
-        pivot_df,
-        text_auto=".2f",
-        aspect="auto",
-        color_continuous_scale="RdBu_r",
-        labels=dict(color="AER"),
-        title=f"Aid Effectiveness Ratios in {country} (2005–2019)"
-    )
+    cards.append(st.metric(label=title_map[indicator], value=top_country))
 
-    fig.update_layout(height=500, margin=dict(t=40, b=40, l=10, r=10))
-    st.plotly_chart(fig, use_container_width=True)
+# Display as a row
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Maternal Mortality", cards[0].label, cards[0].value)
+col2.metric("Literacy Rate", cards[1].label, cards[1].value)
+col3.metric("Primary Completion", cards[2].label, cards[2].value)
+col4.metric("Malaria Rate", cards[3].label, cards[3].value)
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
- 
