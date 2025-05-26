@@ -264,73 +264,68 @@ elif section == "Education Indicators":
 elif section == "Aid Effectiveness Ratios": 
     st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
     st.markdown("### 🧮 Aid Effectiveness Ratios (2005–2019)")
+    indicator_options = {
+    "Maternal Mortality (↓)": {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
+    "Primary Completion (↑)": {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
+    "Undernourishment (↓)": {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
+    "Sanitation Access (↑)": {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
+    "School Enrolment GPI (↑)": {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"}
+}
 
-    # Define effectiveness indicators
-    effectiveness_metrics = [
-        {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
-        {"sector": "Education", "indicator": "Total_Literacy", "better": "higher"},
-        {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
-        {"sector": "Malaria control", "indicator": "Malaria_RATE_PER_1000_N", "better": "lower"},
-        {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
-        {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
-        {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"},
-    ]
+selected_label = st.selectbox("Select Aid Effectiveness Indicator", list(indicator_options.keys()))
+selected = indicator_options[selected_label]
+sector = selected["sector"]
+indicator = selected["indicator"]
+better = selected["better"]
 
-    title_map = {
-        "Maternal_Mortality": "Maternal Mortality",
-        "Total_Literacy": "Literacy Rate",
-        "Primary_Completion": "Primary Completion",
-        "Malaria_RATE_PER_1000_N": "Malaria Rate",
-        "Undernourishment": "Undernourishment",
-        "Population_using_basic_sanitation%": "Basic Sanitation Use",
-        "School_Enroll_GPI": "School Enrolment GPI"
-    }
+# Filter and calculate AER
+df = Finaldf[(Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))].copy()
+results = []
 
-    for metric in effectiveness_metrics:
-        sector = metric["sector"]
-        indicator = metric["indicator"]
-        better = metric["better"]
+for country in df['Country'].unique():
+    d = df[df['Country'] == country]
+    if d['Year'].nunique() < 2:
+        continue
+    try:
+        v1 = d[d['Year'] == 2005][indicator].mean()
+        v2 = d[d['Year'] == 2019][indicator].mean()
+        oda1 = d[d['Year'] == 2005]['Sector_ODA_Millions'].sum()
+        oda2 = d[d['Year'] == 2019]['Sector_ODA_Millions'].sum()
+        if oda2 - oda1 == 0:
+            continue
+        aer = (v2 - v1) / (oda2 - oda1)
+        results.append({"Country": country, "AER": round(aer, 4)})
+    except:
+        continue
 
-        df_filtered = Finaldf[
-            (Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))
-        ].copy()
+aer_df = pd.DataFrame(results)
+if aer_df.empty:
+    st.warning("⚠️ No data available for selected indicator.")
+else:
+    top = aer_df.sort_values(by="AER", ascending=(better == "lower")).iloc[0]
+    worst = aer_df.sort_values(by="AER", ascending=(better == "lower")).iloc[-1]
 
-        top_country = worst_country = "No valid data"
+    col1, col2 = st.columns(2)
+    col1.metric("Top Country (Best AER)", f"{top['Country']}", f"AER: {top['AER']}")
+    col2.metric("Worst Country (Lowest AER)", f"{worst['Country']}", f"AER: {worst['AER']}")
 
-        if not df_filtered.empty:
-            results = []
+    # Choropleth map
+    fig = px.choropleth(
+        aer_df,
+        locations="Country",
+        locationmode="country names",
+        color="AER",
+        color_continuous_scale="RdBu_r",
+        scope="africa",
+        title=f"Aid Effectiveness Ratio: {selected_label} (2005–2019)",
+        labels={"AER": "Aid Effectiveness Ratio"},
+    )
+    fig.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
+    fig.update_layout(height=550, margin=dict(t=30, b=10, l=10, r=10))
+    st.plotly_chart(fig, use_container_width=True)
 
-            for country in df_filtered['Country'].unique():
-                df_country = df_filtered[df_filtered['Country'] == country]
-                if df_country['Year'].nunique() < 2:
-                    continue
+st.markdown('</div>', unsafe_allow_html=True)
 
-                val_2005 = df_country[df_country['Year'] == 2005][indicator].mean()
-                val_2019 = df_country[df_country['Year'] == 2019][indicator].mean()
-                oda_2005 = df_country[df_country['Year'] == 2005]['Sector_ODA_Millions'].sum()
-                oda_2019 = df_country[df_country['Year'] == 2019]['Sector_ODA_Millions'].sum()
+  
 
-                if pd.isna(val_2005) or pd.isna(val_2019) or pd.isna(oda_2005) or pd.isna(oda_2019):
-                    continue
 
-                delta_val = val_2019 - val_2005
-                delta_oda = oda_2019 - oda_2005
-
-                if delta_oda == 0:
-                    continue
-
-                aer = delta_val / delta_oda
-                results.append((country, round(aer, 4)))
-
-            if results:
-                sorted_results = sorted(results, key=lambda x: x[1], reverse=(better == "higher"))
-                top_country = f"{sorted_results[0][0]} (AER: {sorted_results[0][1]})"
-                worst_country = f"{sorted_results[-1][0]} (AER: {sorted_results[-1][1]})"
-
-        st.metric(
-            label=f"{title_map[indicator]}",
-            value=f"Top: {top_country}",
-            delta=f"Worst: {worst_country}"
-        )
-
-    st.markdown('</div>', unsafe_allow_html=True)
