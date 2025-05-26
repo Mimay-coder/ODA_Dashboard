@@ -258,13 +258,11 @@ elif section == "Education Indicators":
         st.plotly_chart(fig_female, use_container_width=True) 
 
 
+# Final Section 
 
-
-
-# ------------------------------
-# CORRUPTION INDICATORS TAB
-# ------------------------------
-st.markdown("### 🌍 Top Countries by Aid Effectiveness Ratio (2005–2019)")
+elif section == "Aid Effectivness Ratios":
+    st.markdown('<div class="healthcare-section">', unsafe_allow_html=True)
+    st.markdown("### 🌍 Top Countries by Aid Effectiveness Ratio (2005–2019)")
 
 # List of indicators with associated sector and whether a higher outcome is better
 effectiveness_metrics = [
