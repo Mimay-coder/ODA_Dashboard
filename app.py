@@ -336,4 +336,4 @@ for metric in effectiveness_metrics:
         value=f"Top: {top_country}",
         delta=f"Worst: {worst_country}"
     )
-        st.markdown('</div>', unsafe_allow_html=True)
+       
