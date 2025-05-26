@@ -265,76 +265,67 @@ elif section == "Education Indicators":
 # ------------------------------
 # AID EFFECTIVENESS RATIOS TAB
 # ------------------------------
-elif section == "Aid Effectiveness Ratios": 
-    st.markdown('<div class="Aid_Effectiveness-section">', unsafe_allow_html=True)
-    
-    st.markdown("### 🧮 Aid Effectiveness Ratios (2005–2019)")
+elif section == "Aid Effectiveness Ratios":
+    st.markdown('<div class="corruption-section">', unsafe_allow_html=True)
+    st.markdown("## 🌍 Aid Effectiveness Ratios (2005–2019)")
+
     indicator_options = {
-    "Maternal Mortality (↓)": {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
-    "Primary Completion (↑)": {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
-    "Undernourishment (↓)": {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
-    "Sanitation Access (↑)": {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
-    "School Enrolment GPI (↑)": {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"}
-}
+        "Maternal Mortality (↓)": {"sector": "Reproductive health care", "indicator": "Maternal_Mortality", "better": "lower"},
+        "Primary Completion (↑)": {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
+        "Undernourishment (↓)": {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
+        "Sanitation Access (↑)": {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
+        "School Enrolment GPI (↑)": {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"}
+    }
 
-selected_label = st.selectbox("Select Aid Effectiveness Indicator", list(indicator_options.keys()))
-selected = indicator_options[selected_label]
-sector = selected["sector"]
-indicator = selected["indicator"]
-better = selected["better"]
+    selected_label = st.selectbox("Select Aid Effectiveness Indicator", list(indicator_options.keys()))
+    selected = indicator_options[selected_label]
+    sector = selected["sector"]
+    indicator = selected["indicator"]
+    better = selected["better"]
 
-# Filter and calculate AER
-df = Finaldf[(Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))].copy()
-results = []
+    df = Finaldf[(Finaldf['Sector'] == sector) & (Finaldf['Year'].isin([2005, 2019]))].copy()
+    results = []
 
-for country in df['Country'].unique():
-    d = df[df['Country'] == country]
-    if d['Year'].nunique() < 2:
-        continue
-    try:
-        v1 = d[d['Year'] == 2005][indicator].mean()
-        v2 = d[d['Year'] == 2019][indicator].mean()
-        oda1 = d[d['Year'] == 2005]['Sector_ODA_Millions'].sum()
-        oda2 = d[d['Year'] == 2019]['Sector_ODA_Millions'].sum()
-        if oda2 - oda1 == 0:
+    for country in df['Country'].unique():
+        d = df[df['Country'] == country]
+        if d['Year'].nunique() < 2:
             continue
-        aer = (v2 - v1) / (oda2 - oda1)
-        results.append({"Country": country, "AER": round(aer, 4)})
-    except:
-        continue
+        try:
+            v1 = d[d['Year'] == 2005][indicator].mean()
+            v2 = d[d['Year'] == 2019][indicator].mean()
+            oda1 = d[d['Year'] == 2005]['Sector_ODA_Millions'].sum()
+            oda2 = d[d['Year'] == 2019]['Sector_ODA_Millions'].sum()
+            if oda2 - oda1 == 0:
+                continue
+            aer = (v2 - v1) / (oda2 - oda1)
+            results.append({"Country": country, "AER": round(aer, 4)})
+        except:
+            continue
 
-aer_df = pd.DataFrame(results)
-if aer_df.empty:
-    st.warning("⚠️ No data available for selected indicator.")
-else:
-    top = aer_df.sort_values(by="AER", ascending=(better == "lower")).iloc[0]
-    worst = aer_df.sort_values(by="AER", ascending=(better == "lower")).iloc[-1]
+    aer_df = pd.DataFrame(results)
 
-    col1, col2 = st.columns(2)
-    col1.metric("Top Country (Best AER)", f"{top['Country']}", f"AER: {top['AER']}")
-    col2.metric("Worst Country (Lowest AER)", f"{worst['Country']}", f"AER: {worst['AER']}")
+    if aer_df.empty:
+        st.warning("⚠️ No data available for selected indicator.")
+    else:
+        top = aer_df.sort_values(by="AER", ascending=(better == "lower")).iloc[0]
+        worst = aer_df.sort_values(by="AER", ascending=(better == "lower")).iloc[-1]
 
-    # Choropleth map
-    fig = px.choropleth(
-        aer_df,
-        locations="Country",
-        locationmode="country names",
-        color="AER",
-        color_continuous_scale="RdBu_r",
-        scope="africa",
-        title=f"Aid Effectiveness Ratio: {selected_label} (2005–2019)",
-        labels={"AER": "Aid Effectiveness Ratio"},
-    )
-    fig.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
-    fig.update_layout(height=550, margin=dict(t=30, b=10, l=10, r=10))
-    st.plotly_chart(fig, use_container_width=True)
-    
-    st.set_page_config(layout="wide")
-with open("style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        col1.metric("Top Country (Best AER)", f"{top['Country']}", f"AER: {top['AER']}")
+        col2.metric("Worst Country (Lowest AER)", f"{worst['Country']}", f"AER: {worst['AER']}")
 
-st.markdown('</div>', unsafe_allow_html=True)
+        fig = px.choropleth(
+            aer_df,
+            locations="Country",
+            locationmode="country names",
+            color="AER",
+            color_continuous_scale="RdBu_r",
+            scope="africa",
+            title=f"Aid Effectiveness Ratio: {selected_label} (2005–2019)",
+            labels={"AER": "Aid Effectiveness Ratio"},
+        )
+        fig.update_geos(lonaxis_range=[-20, 10], lataxis_range=[-5, 20])
+        fig.update_layout(height=550, margin=dict(t=30, b=10, l=10, r=10))
+        st.plotly_chart(fig, use_container_width=True)
 
-  
-
-
+    st.markdown('</div>', unsafe_allow_html=True)
