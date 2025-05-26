@@ -265,8 +265,7 @@ elif section == "Education Indicators":
 # CORRUPTION INDICATORS TAB
 # ------------------------------
 
-
-  elif section == "Corruption Indicators":
+elif section == "Corruption Indicators":
     st.markdown('<div class="corruption-section">', unsafe_allow_html=True)
     st.markdown("<h5 style='margin-bottom: 1.5rem;'>Aid Effectiveness Ratio Heatmap (2005–2019)</h5>", unsafe_allow_html=True)
     
@@ -332,3 +331,5 @@ elif section == "Education Indicators":
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
+
+ 
