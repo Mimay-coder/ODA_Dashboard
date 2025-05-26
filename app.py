@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-st.set_page_config(layout="wide")
+
 # Load data
 Finaldf = pd.read_csv("Finaldf.csv")
 Finaldf1 = pd.read_csv("Finaldf_Original.csv")
