@@ -275,7 +275,7 @@ elif section == "Aid Effectiveness Ratios":
         "Primary Completion (↑)": {"sector": "Primary education", "indicator": "Primary_Completion", "better": "higher"},
         "Undernourishment (↓)": {"sector": "Basic nutrition", "indicator": "Undernourishment", "better": "lower"},
         "Sanitation Access (↑)": {"sector": "Water supply & sanitation", "indicator": "Population_using_basic_sanitation%", "better": "higher"},
-        "School Enrolment GPI (↑)": {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"}
+        "School Enrolment Gender Parity Index (GPI) (↑)": {"sector": "Primary education", "indicator": "School_Enroll_GPI", "better": "higher"}
     }
 
     selected_label = st.selectbox("Select Aid Effectiveness Indicator", list(indicator_options.keys()))
