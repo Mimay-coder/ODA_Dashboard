@@ -265,12 +265,17 @@ elif section == "Education Indicators":
 # CORRUPTION INDICATORS TAB
 # ------------------------------
 
-elif section == "Corruption Indicators":
+
+  elif section == "Corruption Indicators":
     st.markdown('<div class="corruption-section">', unsafe_allow_html=True)
-    st.markdown("<h5 style='margin-bottom: 2rem;'>Aid Effectiveness Ratio Heat Map</h5>", unsafe_allow_html=True)
+    st.markdown("<h5 style='margin-bottom: 1.5rem;'>Aid Effectiveness Ratio Heatmap (2005–2019)</h5>", unsafe_allow_html=True)
+    
     country = st.selectbox("Select Country", sorted(Finaldf['Country'].unique()), key="heatmap_country")
 
-    # Define sectors and matching indicators
+    # Ensure year column is integer
+    Finaldf['Year'] = Finaldf['Year'].astype(int)
+
+    # Define sector-indicator pairs
     sector_indicator_map = {
         'Reproductive health care': 'Maternal_Mortality',
         'Malaria control': 'Malaria_RATE_PER_1000_N',
@@ -282,24 +287,24 @@ elif section == "Corruption Indicators":
 
     results = []
 
-    # Loop through each sector-indicator pair
     for sector, indicator in sector_indicator_map.items():
         df_sector = Finaldf[
             (Finaldf['Country'] == country) &
             (Finaldf['Sector'] == sector) &
-            (Finaldf['Year'].isin([2000, 2020]))
+            (Finaldf['Year'].isin([2005, 2019]))
         ]
 
         if df_sector['Year'].nunique() < 2:
             ratio = np.nan
         else:
-            val_2000 = df_sector[df_sector['Year'] == 2000][indicator].mean()
-            val_2020 = df_sector[df_sector['Year'] == 2020][indicator].mean()
-            oda_2000 = df_sector[df_sector['Year'] == 2000]['Sector_ODA_Millions'].sum()
-            oda_2020 = df_sector[df_sector['Year'] == 2020]['Sector_ODA_Millions'].sum()
+            val_2005 = df_sector[df_sector['Year'] == 2005][indicator].mean()
+            val_2019 = df_sector[df_sector['Year'] == 2019][indicator].mean()
+            oda_2005 = df_sector[df_sector['Year'] == 2005]['Sector_ODA_Millions'].sum()
+            oda_2019 = df_sector[df_sector['Year'] == 2019]['Sector_ODA_Millions'].sum()
 
-            delta_val = val_2020 - val_2000
-            delta_oda = oda_2020 - oda_2000
+            delta_val = val_2019 - val_2005
+            delta_oda = oda_2019 - oda_2005
+
             ratio = np.nan if delta_oda == 0 else round(delta_val / delta_oda, 4)
 
         results.append({
@@ -308,31 +313,22 @@ elif section == "Corruption Indicators":
             "Aid Effectiveness Ratio": ratio
         })
 
-    # Convert to DataFrame for heatmap
     heatmap_df = pd.DataFrame(results)
+
+    # Pivot for heatmap
     pivot_df = heatmap_df.pivot(index="Indicator", columns="Sector", values="Aid Effectiveness Ratio")
 
-    # Plot heatmap using Plotly
+    # Plot heatmap
     fig = px.imshow(
         pivot_df,
         text_auto=".2f",
         aspect="auto",
         color_continuous_scale="RdBu_r",
         labels=dict(color="AER"),
-        title=f"Aid Effectiveness Ratios in {country} (2000–2020)"
+        title=f"Aid Effectiveness Ratios in {country} (2005–2019)"
     )
-    fig.update_layout(height=500, margin=dict(t=50, b=50, l=10, r=10))
+
+    fig.update_layout(height=500, margin=dict(t=40, b=40, l=10, r=10))
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
-
-
-    unique_years = Finaldf[
-    (Finaldf['Country'] == country)][['Sector', 'Year']].drop_duplicates()
-    st.write("✅ Available Years Per Sector for:", country)
-    st.dataframe(unique_years)
-        
-  
-
-
-
